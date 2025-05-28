@@ -1,4 +1,9 @@
+# Ignore Python virtual environments
 venv
 .venv
 
+# Ignore .env files
 .env
+
+# Ignore SQLite3 database files
+*.sqlite3
