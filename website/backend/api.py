@@ -194,13 +194,15 @@ class Refresh(Resource):
         return {"access_token": access_token}, HTTPStatus.OK
 
 class Wine(Resource):
-    def get(self):
-        db = get_db()
-        wine_list = db.execute("SELECT * FROM wines").fetchall()
-        return {"wines": wine_list}, HTTPStatus.OK
 
-    def get(self, wine_id):
+    def get(self, wine_id=None):
         db = get_db()
+
+        if wine_id is None:
+            wine_list = db.execute("SELECT * FROM wines").fetchall()
+            wines = [dict(row) for row in wine_list]
+            return wines, HTTPStatus.OK
+
         wine = db.execute("SELECT * FROM wines WHERE id = ?", (wine_id,)).fetchone()
         if wine:
             wine_certifications = db.execute(
