@@ -58,6 +58,47 @@ def init_db():
         "FOREIGN KEY(username) REFERENCES users(username) ON DELETE CASCADE"
         ")"
     )
+    db.execute(
+        "CREATE TABLE IF NOT EXISTS wines ("
+        "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+        "verifiable_credential_id TEXT NOT NULL, "
+        "name TEXT NOT NULL, "
+        "description TEXT, "
+        "type TEXT NOT NULL, "
+        "year INTEGER NOT NULL, "
+        "country TEXT NOT NULL, "
+        "region TEXT NOT NULL, "
+        "vineyard TEXT NOT NULL, "
+        "grape_variety TEXT NOT NULL, "
+        "price REAL NOT NULL, "
+        "image_url TEXT, "
+        "expiration_date DATE, "
+        "bottle_size REAL NOT NULL, "
+        "alcohol_content REAL NOT NULL, "
+        "fixed_acidity REAL, "
+        "volatile_acidity REAL, "
+        "citric_acid REAL, "
+        "residual_sugar REAL, "
+        "chlorides REAL, "
+        "free_sulfur_dioxide REAL, "
+        "total_sulfur_dioxide REAL, "
+        "density REAL, "
+        "pH REAL, "
+        "sulphates REAL, "
+        "quality INTEGER, "
+        "color TEXT"
+        ")"
+    )
+    db.execute(
+        "CREATE TABLE IF NOT EXISTS wine_certifications ("
+        "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+        "wine_id INTEGER NOT NULL, "
+        "type TEXT NOT NULL, "
+        "certifying_body TEXT NOT NULL, "
+        "certification_date DATE NOT NULL, "
+        "FOREIGN KEY(wine_id) REFERENCES wines(id) ON DELETE CASCADE"
+        ")"
+    )
     db.commit()
 
 def hash_password(password, salt=None):
@@ -152,20 +193,78 @@ class Refresh(Resource):
         access_token = create_access_token(row["username"])
         return {"access_token": access_token}, HTTPStatus.OK
 
-class User(Resource):
-    # TODO: Remove this endpoint in production
-    # It is only for debugging purposes to check user data.
-    def get(self, username):
+class Wine(Resource):
+    def get(self):
         db = get_db()
-        user = db.execute("SELECT username, salt, password_hash FROM users WHERE username = ?", (username,)).fetchone()
-        if not user:
+        wine_list = db.execute("SELECT * FROM wines").fetchall()
+        return {"wines": wine_list}, HTTPStatus.OK
+
+    def get(self, wine_id):
+        db = get_db()
+        wine = db.execute("SELECT * FROM wines WHERE id = ?", (wine_id,)).fetchone()
+        if wine:
+            wine_certifications = db.execute(
+                "SELECT * FROM wine_certifications WHERE wine_id = ?", (wine_id,)
+            ).fetchall()
+            wine = dict(wine)
+            wine["certifications"] = [dict(cert) for cert in wine_certifications]
+        if not wine:
             return {}, HTTPStatus.NOT_FOUND
-        return {user["username"]: {"salt": user["salt"], "password_hash": user["password_hash"]}}
+        return wine, HTTPStatus.OK
+
+    def post(self):
+        data = request.get_json()
+        wine_data = {
+            "verifiable_credential_id": data.get("verifiable_credential_id"),
+            "name": data.get("name"),
+            "description": data.get("description"),
+            "type": data.get("type"),
+            "year": data.get("year"),
+            "country": data.get("country"),
+            "region": data.get("region"),
+            "vineyard": data.get("vineyard"),
+            "grape_variety": data.get("grape_variety"),
+            "price": data.get("price"),
+            "image_url": data.get("image_url"),
+            "expiration_date": data.get("expiration_date"),
+            "bottle_size": data.get("bottle_size"),
+            "alcohol_content": data.get("alcohol_content"),
+            "fixed_acidity": data.get("fixed_acidity"),
+            "volatile_acidity": data.get("volatile_acidity"),
+            "citric_acid": data.get("citric_acid"),
+            "residual_sugar": data.get("residual_sugar"),
+            "chlorides": data.get("chlorides"),
+            "free_sulfur_dioxide": data.get("free_sulfur_dioxide"),
+            "total_sulfur_dioxide": data.get("total_sulfur_dioxide"),
+            "density": data.get("density"),
+            "pH": data.get("pH"),
+            "sulphates": data.get("sulphates"),
+            "quality": data.get("quality"),
+            "color": data.get("color")
+        }
+        db = get_db()
+        cursor = db.execute(
+            """INSERT INTO wines (verifiable_credential_id, name, description, type, year, country, region,
+                                  vineyard, grape_variety, price, image_url, expiration_date, bottle_size,
+                                  alcohol_content, fixed_acidity, volatile_acidity, citric_acid, residual_sugar,
+                                  chlorides, free_sulfur_dioxide, total_sulfur_dioxide, density, pH, sulphates,
+                                  quality, color)
+               VALUES (:verifiable_credential_id, :name, :description, :type, :year, :country, :region,
+                       :vineyard, :grape_variety, :price, :image_url, :expiration_date, :bottle_size,
+                       :alcohol_content, :fixed_acidity, :volatile_acidity, :citric_acid, :residual_sugar,
+                       :chlorides, :free_sulfur_dioxide, :total_sulfur_dioxide, :density, :pH, :sulphates,
+                       :quality, :color)""",
+            wine_data
+        )
+        db.commit()
+        wine_id = cursor.lastrowid
+        return {"id": wine_id}, HTTPStatus.CREATED
+
 
 api.add_resource(Register, "/register")
 api.add_resource(Login, "/login")
 api.add_resource(Refresh, "/refresh")
-api.add_resource(User, "/<string:username>")
+api.add_resource(Wine, "/wines", "/wines/<int:wine_id>")
 
 if __name__ == "__main__":
     with app.app_context():
