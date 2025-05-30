@@ -16,10 +16,5 @@ COPY .env .env
 # Expose the port Flask will run on
 EXPOSE 5000
 
-# Set environment variables for Flask
-ENV FLASK_APP=api.py
-ENV FLASK_RUN_HOST=0.0.0.0
-ENV FLASK_ENV=production
-
-# Run the Flask app
-CMD ["flask", "run"]
+# Run the Flask app with Gunicorn for production
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "api:app"]

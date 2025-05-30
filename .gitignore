@@ -7,3 +7,6 @@ venv
 
 # Ignore SQLite3 database files
 *.sqlite3
+
+# Ignore python cache files
+__pycache__
