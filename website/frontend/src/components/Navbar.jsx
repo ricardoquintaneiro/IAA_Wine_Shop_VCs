@@ -8,6 +8,7 @@ import {
 import {Link} from "@heroui/link";
 import { Button } from "@heroui/button"
 import logo from "../assets/wine_shop_logo.png";
+import SignIn from "./SignIn.jsx"; 
 
 export default function MyNavbar() {
 
@@ -30,7 +31,7 @@ export default function MyNavbar() {
       </NavbarBrand>
       <NavbarContent justify="end">
         <NavbarItem className="lg:flex">
-          <Link color="default" className="" href="#">Login</Link>
+          <Link color="default" className="" href="signin">Login</Link>
         </NavbarItem>
         <NavbarItem>
           <Button as={Link} color="default" href="#" variant="flat">
