@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Button } from "@heroui/react";
+import { Form, Input, Button, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@heroui/react";
 import MyNavbar from "./Navbar.jsx";
 
 export const EyeSlashFilledIcon = (props) => {
@@ -62,28 +62,47 @@ export const EyeFilledIcon = (props) => {
     );
 };
 
-export default function SignIn() {
+export default function SignUp() {
     const [isVisible, setIsVisible] = React.useState(false);
+    const [showAlert, setShowAlert] = React.useState(false);
+    const [isLoading, setIsLoading] = React.useState(false);
     const toggleVisibility = () => setIsVisible(!isVisible);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        let data = Object.fromEntries(new FormData(e.currentTarget));
+
+        setIsLoading(true);
+        setShowAlert(true);
+
+        // Wait for 1 second
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        setIsLoading(false);
+
+        // Redirect to SignIn after another brief moment
+        setTimeout(() => {
+            // Replace with your actual navigation logic
+            window.location.href = '/signin'; // or use your router navigation
+        }, 500);
+    };
 
     return (
         <>
             <div className="flex flex-col min-h-screen">
                 <MyNavbar />
                 <header className=" p-4 text-center">
-                    <h1 className="text-2xl font-bold text-default-800">Sign In</h1>
-                    <p className="text-default-600">Please enter your credentials to sign in.</p>
+                    <h1 className="text-2xl font-bold text-default-800">Sign Up</h1>
+                    <p className="text-default-600">Create your account to get started.</p>
                 </header>
                 <main className="flex-1 flex flex-col items-center py-4">
                     <Form
                         className="w-full max-w-xs gap-4"
-                        onReset={() => setAction("reset")}
-                        onSubmit={(e) => {
-                            e.preventDefault();
-                            let data = Object.fromEntries(new FormData(e.currentTarget));
-
-                            setAction(`submit ${JSON.stringify(data)}`);
+                        onReset={() => {
+                            setShowAlert(false);
+                            setIsLoading(false);
                         }}
+                        onSubmit={handleSubmit}
                     >
                         <Input
                             isRequired
@@ -92,6 +111,14 @@ export default function SignIn() {
                             placeholder="Enter your username"
                             type="text"
                             variant="bordered" />
+                        <Input
+                            isRequired
+                            errorMessage="Please enter a valid email"
+                            label="Email"
+                            placeholder="Enter your email"
+                            type="email"
+                            variant="bordered"
+                        />
                         <Input
                             isRequired
                             className="max-w-xs"
@@ -115,15 +142,49 @@ export default function SignIn() {
                             variant="bordered"
                         />
                         <div className="flex gap-2">
-                            <Button color="default" type="submit" variant="flat">
-                                Sign In
+                            <Button color="default" type="submit" variant="flat" isLoading={isLoading}
+                                disabled={isLoading}>
+                                Sign Up
                             </Button>
-                            <Button type="reset" variant="light">
+                            <Button type="reset" variant="light" disabled={isLoading}>
                                 Reset
                             </Button>
                         </div>
                     </Form>
                 </main>
+
+                {/* Success Alert Modal */}
+                <Modal
+                    isOpen={showAlert}
+                    onOpenChange={setShowAlert}
+                    hideCloseButton={true}
+                    isDismissable={false}
+                    backdrop="blur"
+                >
+                    <ModalContent>
+                        <ModalHeader className="flex flex-col gap-1">
+                            <div className="flex items-center gap-2">
+                                <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </div>
+                                Account Created Successfully!
+                            </div>
+                        </ModalHeader>
+                        <ModalBody>
+                            <p>Your account has been created successfully. You will be redirected to the sign in page shortly.</p>
+                        </ModalBody>
+                        <ModalFooter>
+                            {isLoading && (
+                                <div className="flex items-center gap-2">
+                                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
+                                    <span className="text-sm">Redirecting...</span>
+                                </div>
+                            )}
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal>
             </div>
         </>
     );

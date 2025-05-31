@@ -34,7 +34,7 @@ export default function MyNavbar() {
           <Link color="default" className="" href="signin">Login</Link>
         </NavbarItem>
         <NavbarItem>
-          <Button as={Link} color="default" href="#" variant="flat">
+          <Button as={Link} color="default" href="signup" variant="flat">
             Sign Up
           </Button>
         </NavbarItem>
