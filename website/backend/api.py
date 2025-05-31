@@ -63,18 +63,19 @@ def init_db():
         "id INTEGER PRIMARY KEY AUTOINCREMENT, "
         "verifiable_credential_id TEXT NOT NULL, "
         "name TEXT NOT NULL, "
-        "description TEXT, "
         "type TEXT NOT NULL, "
-        "year INTEGER NOT NULL, "
+        "vintage INTEGER NOT NULL, "
         "country TEXT NOT NULL, "
         "region TEXT NOT NULL, "
-        "vineyard TEXT NOT NULL, "
+        "subregion TEXT, "
+        "producer_name TEXT NOT NULL, "
         "grape_variety TEXT NOT NULL, "
         "price REAL NOT NULL, "
+        "batch_code TEXT NOT NULL, "
+        "description TEXT, "
         "image_url TEXT, "
-        "expiration_date DATE, "
-        "bottle_size REAL NOT NULL, "
-        "alcohol_content REAL NOT NULL, "
+        "bottle_size_ml INTEGER NOT NULL, "
+        "alcohol_content_percentage REAL NOT NULL, "
         "fixed_acidity REAL, "
         "volatile_acidity REAL, "
         "citric_acid REAL, "
@@ -85,13 +86,11 @@ def init_db():
         "density REAL, "
         "pH REAL, "
         "sulphates REAL, "
-        "quality INTEGER, "
-        "color TEXT"
         ")"
     )
     db.execute(
         "CREATE TABLE IF NOT EXISTS wine_certifications ("
-        "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+        "id TEXT PRIMARY KEY, "
         "wine_id INTEGER NOT NULL, "
         "type TEXT NOT NULL, "
         "certifying_body TEXT NOT NULL, "
@@ -137,12 +136,16 @@ class Register(Resource):
         data = request.get_json()
         username = data.get("username")
         password = data.get("password")
+        if not username or not password:
+            return {"message": "Username and password are required"}, HTTPStatus.BAD_REQUEST
+        if len(password) < 8:
+            return {"message": "Password must be at least 8 characters long"}, HTTPStatus.BAD_REQUEST
+        if not password.isprintable():
+            return {"message": "Password must contain only printable UTF-8 characters"}, HTTPStatus.BAD_REQUEST
         db = get_db()
         user = db.execute("SELECT * FROM users WHERE username = ?", (username,)).fetchone()
         if user:
             return {"message": "User already exists"}, HTTPStatus.BAD_REQUEST
-        if len(password) < 8:
-            return {"message": "Password must be at least 8 characters long"}, HTTPStatus.BAD_REQUEST
         salt, pwd_hash = hash_password(password)
         db.execute(
             "INSERT INTO users (username, salt, password_hash) VALUES (?, ?, ?)",
@@ -219,18 +222,19 @@ class Wine(Resource):
         wine_data = {
             "verifiable_credential_id": data.get("verifiable_credential_id"),
             "name": data.get("name"),
-            "description": data.get("description"),
             "type": data.get("type"),
-            "year": data.get("year"),
+            "vintage": data.get("vintage"),
             "country": data.get("country"),
             "region": data.get("region"),
-            "vineyard": data.get("vineyard"),
+            "subregion": data.get("subregion"),
+            "producer_name": data.get("producer_name"),
             "grape_variety": data.get("grape_variety"),
             "price": data.get("price"),
+            "batch_code": data.get("batch_code"),
+            "description": data.get("description"),
             "image_url": data.get("image_url"),
-            "expiration_date": data.get("expiration_date"),
-            "bottle_size": data.get("bottle_size"),
-            "alcohol_content": data.get("alcohol_content"),
+            "bottle_size_ml": data.get("bottle_size_ml"),
+            "alcohol_content_percentage": data.get("alcohol_content_percentage"),
             "fixed_acidity": data.get("fixed_acidity"),
             "volatile_acidity": data.get("volatile_acidity"),
             "citric_acid": data.get("citric_acid"),
@@ -241,8 +245,6 @@ class Wine(Resource):
             "density": data.get("density"),
             "pH": data.get("pH"),
             "sulphates": data.get("sulphates"),
-            "quality": data.get("quality"),
-            "color": data.get("color")
         }
         db = get_db()
         cursor = db.execute(
