@@ -75,15 +75,13 @@ export default function SignUp() {
         setIsLoading(true);
         setShowAlert(true);
 
-        // Wait for 1 second
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        // Wait for 3 seconds to read the modal
+        await new Promise(resolve => setTimeout(resolve, 3000));
 
         setIsLoading(false);
 
-        // Redirect to SignIn after another brief moment
         setTimeout(() => {
-            // Replace with your actual navigation logic
-            window.location.href = '/signin'; // or use your router navigation
+            window.location.href = '/signin';
         }, 500);
     };
 
@@ -160,20 +158,27 @@ export default function SignUp() {
                     hideCloseButton={true}
                     isDismissable={false}
                     backdrop="blur"
+                    className="bg-success text-green-800"
                 >
-                    <ModalContent>
+                    <ModalContent className="bg-green-50 text-green-800">
                         <ModalHeader className="flex flex-col gap-1">
-                            <div className="flex items-center gap-2">
-                                <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-                                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                    </svg>
-                                </div>
+                            <div className="flex items-center gap-2 ">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-6 w-6 text-success-600"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    strokeWidth={2}
+                                >
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                </svg>
+
                                 Account Created Successfully!
                             </div>
                         </ModalHeader>
                         <ModalBody>
-                            <p>Your account has been created successfully. You will be redirected to the sign in page shortly.</p>
+                            <p>Your account has been created successfully. You will be redirected to the Sign In page shortly.</p>
                         </ModalBody>
                         <ModalFooter>
                             {isLoading && (
