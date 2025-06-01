@@ -1,0 +1,292 @@
+{
+  "products": [
+    {
+      "credentialSubject": {
+        "productId": "urn:epc:id:sgln:5600203961617.ACN257172",
+        "productName": "Pomadão Alvarinho",
+        "productType": "Wine",
+        "wineType": "White",
+        "origin": {
+          "country": "Portugal",
+          "region": "Douro",
+          "subRegion": "Minho",
+          "producer": {
+            "name": "Caves Velhinhas",
+            "did": "did:caves-velhinhas"
+          }
+        },
+        "certifications": [
+          {
+            "certificationType": ["Biologic", "DOP"],
+            "certifyingAuthority": "Instituto da Vinha e do Vinho",
+            "certificateId": "IVV-BIO-2023-257172",
+            "certificationDate": "2023-07-01"
+          }
+        ],
+        "grapeVarieties": ["Alvarinho"],
+        "alcoholContent": {
+          "value": 13.0,
+          "unit": "%"
+        },
+        "volume": {
+          "value": 750,
+          "unit": "ml"
+        },
+        "analyticalData": {
+          "fixedAcidity": { "value": 7.4, "unit": "g/L" },
+          "volatileAcidity": { "value": 0.27, "unit": "g/L" },
+          "citricAcid": { "value": 0.36, "unit": "g/L" },
+          "residualSugar": { "value": 8.5, "unit": "g/L" },
+          "chlorides": { "value": 0.044, "unit": "g/L" },
+          "freeSulfurDioxide": { "value": 30, "unit": "mg/L" },
+          "totalSulfurDioxide": { "value": 97, "unit": "mg/L" },
+          "density": { "value": 0.994, "unit": "g/cm³" },
+          "pH": 3.19,
+          "sulphates": { "value": 0.4, "unit": "g/L" }
+        },
+        "vintage": 2023,
+        "batchCode": "ACN257172"
+      }
+    },
+    {
+      "credentialSubject": {
+        "productId": "urn:epc:id:sgln:3905704921108.BCH882319",
+        "productName": "Vale Secreto Tinto",
+        "productType": "Wine",
+        "wineType": "Red",
+        "origin": {
+          "country": "Portugal",
+          "region": "Alentejo",
+          "subRegion": "Borba",
+          "producer": {
+            "name": "Adega Monte Branco",
+            "did": "did:adega-monte-branco"
+          }
+        },
+        "certifications": [
+          {
+            "certificationType": ["DOP"],
+            "certifyingAuthority": "CVRA",
+            "certificateId": "CVRA-RED-2023-882319",
+            "certificationDate": "2023-05-15"
+          }
+        ],
+        "grapeVarieties": ["Aragonez", "Trincadeira"],
+        "alcoholContent": {
+          "value": 14.0,
+          "unit": "%"
+        },
+        "volume": {
+          "value": 750,
+          "unit": "ml"
+        },
+        "analyticalData": {
+          "fixedAcidity": { "value": 6.1, "unit": "g/L" },
+          "volatileAcidity": { "value": 0.42, "unit": "g/L" },
+          "citricAcid": { "value": 0.25, "unit": "g/L" },
+          "residualSugar": { "value": 4.2, "unit": "g/L" },
+          "chlorides": { "value": 0.039, "unit": "g/L" },
+          "freeSulfurDioxide": { "value": 22, "unit": "mg/L" },
+          "totalSulfurDioxide": { "value": 85, "unit": "mg/L" },
+          "density": { "value": 0.996, "unit": "g/cm³" },
+          "pH": 3.45,
+          "sulphates": { "value": 0.45, "unit": "g/L" }
+        },
+        "vintage": 2022,
+        "batchCode": "BCH882319"
+      }
+    },
+    {
+      "credentialSubject": {
+        "productId": "urn:epc:id:sgln:9602173028569.ZYN641034",
+        "productName": "Encosta Rosé",
+        "productType": "Wine",
+        "wineType": "Rosé",
+        "origin": {
+          "country": "Portugal",
+          "region": "Lisboa",
+          "subRegion": "Bucelas",
+          "producer": {
+            "name": "Quinta Encosta Bela",
+            "did": "did:encosta-bela"
+          }
+        },
+        "certifications": [
+          {
+            "certificationType": ["Sustainable"],
+            "certifyingAuthority": "AgroCert",
+            "certificateId": "AGC-SUS-2023-641034",
+            "certificationDate": "2023-06-20"
+          }
+        ],
+        "grapeVarieties": ["Touriga Nacional", "Castelão"],
+        "alcoholContent": {
+          "value": 12.5,
+          "unit": "%"
+        },
+        "volume": {
+          "value": 750,
+          "unit": "ml"
+        },
+        "analyticalData": {
+          "fixedAcidity": { "value": 6.8, "unit": "g/L" },
+          "volatileAcidity": { "value": 0.32, "unit": "g/L" },
+          "citricAcid": { "value": 0.31, "unit": "g/L" },
+          "residualSugar": { "value": 7.2, "unit": "g/L" },
+          "chlorides": { "value": 0.048, "unit": "g/L" },
+          "freeSulfurDioxide": { "value": 28, "unit": "mg/L" },
+          "totalSulfurDioxide": { "value": 91, "unit": "mg/L" },
+          "density": { "value": 0.993, "unit": "g/cm³" },
+          "pH": 3.22,
+          "sulphates": { "value": 0.37, "unit": "g/L" }
+        },
+        "vintage": 2023,
+        "batchCode": "ZYN641034"
+      }
+    },
+    {
+      "credentialSubject": {
+        "productId": "urn:epc:id:sgln:1037852915183.LVM449210",
+        "productName": "Solar da Serra Branco",
+        "productType": "Wine",
+        "wineType": "White",
+        "origin": {
+          "country": "Portugal",
+          "region": "Beiras",
+          "subRegion": "Dão",
+          "producer": {
+            "name": "Solar da Serra",
+            "did": "did:solar-serra"
+          }
+        },
+        "certifications": [
+          {
+            "certificationType": ["Biologic"],
+            "certifyingAuthority": "Sativa",
+            "certificateId": "SAT-BIO-2023-449210",
+            "certificationDate": "2023-03-30"
+          }
+        ],
+        "grapeVarieties": ["Encruzado"],
+        "alcoholContent": {
+          "value": 12.8,
+          "unit": "%"
+        },
+        "volume": {
+          "value": 750,
+          "unit": "ml"
+        },
+        "analyticalData": {
+          "fixedAcidity": { "value": 6.5, "unit": "g/L" },
+          "volatileAcidity": { "value": 0.29, "unit": "g/L" },
+          "citricAcid": { "value": 0.35, "unit": "g/L" },
+          "residualSugar": { "value": 5.0, "unit": "g/L" },
+          "chlorides": { "value": 0.042, "unit": "g/L" },
+          "freeSulfurDioxide": { "value": 26, "unit": "mg/L" },
+          "totalSulfurDioxide": { "value": 88, "unit": "mg/L" },
+          "density": { "value": 0.992, "unit": "g/cm³" },
+          "pH": 3.18,
+          "sulphates": { "value": 0.41, "unit": "g/L" }
+        },
+        "vintage": 2023,
+        "batchCode": "LVM449210"
+      }
+    },
+    {
+      "credentialSubject": {
+        "productId": "urn:epc:id:sgln:8543456712092.RTB330908",
+        "productName": "Castelo Forte Reserva",
+        "productType": "Wine",
+        "wineType": "Red",
+        "origin": {
+          "country": "Portugal",
+          "region": "Tejo",
+          "subRegion": "Tomar",
+          "producer": {
+            "name": "Castelo Vinhos",
+            "did": "did:castelo-vinhos"
+          }
+        },
+        "certifications": [
+          {
+            "certificationType": ["DOP", "Reserve"],
+            "certifyingAuthority": "CVRTejo",
+            "certificateId": "CVR-RES-2023-330908",
+            "certificationDate": "2023-09-10"
+          }
+        ],
+        "grapeVarieties": ["Touriga Franca", "Alicante Bouschet"],
+        "alcoholContent": {
+          "value": 14.5,
+          "unit": "%"
+        },
+        "volume": {
+          "value": 750,
+          "unit": "ml"
+        },
+        "analyticalData": {
+          "fixedAcidity": { "value": 5.9, "unit": "g/L" },
+          "volatileAcidity": { "value": 0.38, "unit": "g/L" },
+          "citricAcid": { "value": 0.27, "unit": "g/L" },
+          "residualSugar": { "value": 6.1, "unit": "g/L" },
+          "chlorides": { "value": 0.047, "unit": "g/L" },
+          "freeSulfurDioxide": { "value": 31, "unit": "mg/L" },
+          "totalSulfurDioxide": { "value": 95, "unit": "mg/L" },
+          "density": { "value": 0.997, "unit": "g/cm³" },
+          "pH": 3.36,
+          "sulphates": { "value": 0.43, "unit": "g/L" }
+        },
+        "vintage": 2021,
+        "batchCode": "RTB330908"
+      }
+    },
+    {
+      "credentialSubject": {
+        "productId": "urn:epc:id:sgln:7898721273834.FLC552271",
+        "productName": "Flor do Campo Branco",
+        "productType": "Wine",
+        "wineType": "White",
+        "origin": {
+          "country": "Portugal",
+          "region": "Setúbal",
+          "subRegion": "Palmela",
+          "producer": {
+            "name": "Vinícola do Campo",
+            "did": "did:vinicola-campo"
+          }
+        },
+        "certifications": [
+          {
+            "certificationType": ["Biologic"],
+            "certifyingAuthority": "Agrobio",
+            "certificateId": "AGB-BIO-2023-552271",
+            "certificationDate": "2023-04-12"
+          }
+        ],
+        "grapeVarieties": ["Fernão Pires", "Arinto"],
+        "alcoholContent": {
+          "value": 13.2,
+          "unit": "%"
+        },
+        "volume": {
+          "value": 750,
+          "unit": "ml"
+        },
+        "analyticalData": {
+          "fixedAcidity": { "value": 7.0, "unit": "g/L" },
+          "volatileAcidity": { "value": 0.3, "unit": "g/L" },
+          "citricAcid": { "value": 0.34, "unit": "g/L" },
+          "residualSugar": { "value": 7.8, "unit": "g/L" },
+          "chlorides": { "value": 0.043, "unit": "g/L" },
+          "freeSulfurDioxide": { "value": 29, "unit": "mg/L" },
+          "totalSulfurDioxide": { "value": 92, "unit": "mg/L" },
+          "density": { "value": 0.993, "unit": "g/cm³" },
+          "pH": 3.2,
+          "sulphates": { "value": 0.39, "unit": "g/L" }
+        },
+        "vintage": 2023,
+        "batchCode": "FLC552271"
+      }
+    }
+  ]
+}
