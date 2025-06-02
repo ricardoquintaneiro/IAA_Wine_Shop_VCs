@@ -18,7 +18,7 @@ export default function MyNavbar() {
            <img
                src={logo}
                alt="Logo da loja"
-               className="h-auto sm:h-2 w-14 rounded-md" // Adjust height and width as needed
+               className="h-14 rounded-md" // Adjust height and width as needed
              />
            </Link>
       </NavbarBrand>

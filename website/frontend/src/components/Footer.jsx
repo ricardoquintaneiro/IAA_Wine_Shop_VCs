@@ -4,7 +4,7 @@ import {Link} from "@heroui/link";
 
 export default function Footer() {
     return (
-        <footer className="py-8 px-4" >
+        <footer className="" >
             <div className="max-w-7xl mx-auto text-center">
                 <div className="flex items-center justify-center gap-2 mb-4">
                     <LuWine className="h-6 w-6 text-purple-400" />
