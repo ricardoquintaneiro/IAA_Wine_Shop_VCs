@@ -17,7 +17,7 @@ export default function MyNavbar() {
            <Link color="foreground" href="/">
            <img
                src={logo}
-               alt="Logo da loja"
+               alt="Wine Shop logo"
                className="h-14 rounded-md" // Adjust height and width as needed
              />
            </Link>
