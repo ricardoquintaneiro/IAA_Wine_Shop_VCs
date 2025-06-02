@@ -85,7 +85,7 @@ def init_db():
         "total_sulfur_dioxide REAL, "
         "density REAL, "
         "pH REAL, "
-        "sulphates REAL, "
+        "sulphates REAL "
         ")"
     )
     db.execute(
@@ -245,23 +245,31 @@ class Wine(Resource):
             "density": data.get("density"),
             "pH": data.get("pH"),
             "sulphates": data.get("sulphates"),
+            "certifications": data.get("certifications", [])
         }
         db = get_db()
         cursor = db.execute(
-            """INSERT INTO wines (verifiable_credential_id, name, description, type, year, country, region,
-                                  vineyard, grape_variety, price, image_url, expiration_date, bottle_size,
-                                  alcohol_content, fixed_acidity, volatile_acidity, citric_acid, residual_sugar,
-                                  chlorides, free_sulfur_dioxide, total_sulfur_dioxide, density, pH, sulphates,
-                                  quality, color)
-               VALUES (:verifiable_credential_id, :name, :description, :type, :year, :country, :region,
-                       :vineyard, :grape_variety, :price, :image_url, :expiration_date, :bottle_size,
-                       :alcohol_content, :fixed_acidity, :volatile_acidity, :citric_acid, :residual_sugar,
-                       :chlorides, :free_sulfur_dioxide, :total_sulfur_dioxide, :density, :pH, :sulphates,
-                       :quality, :color)""",
+            """INSERT INTO wines (verifiable_credential_id, name, description, type, vintage, country, region,
+                                  subregion, producer_name, grape_variety, price, batch_code, image_url, bottle_size_ml,
+                                  alcohol_content_percentage, fixed_acidity, volatile_acidity, citric_acid, residual_sugar,
+                                  chlorides, free_sulfur_dioxide, total_sulfur_dioxide, density, pH, sulphates
+                                  )
+               VALUES (:verifiable_credential_id, :name, :description, :type, :vintage, :country, :region,
+                       :subregion, :producer_name, :grape_variety, :price, :batch_code, :image_url, :bottle_size_ml,
+                       :alcohol_content_percentage, :fixed_acidity, :volatile_acidity, :citric_acid, :residual_sugar,
+                       :chlorides, :free_sulfur_dioxide, :total_sulfur_dioxide, :density, :pH, :sulphates
+                       )""",
             wine_data
         )
         db.commit()
         wine_id = cursor.lastrowid
+        for cert in wine_data["certifications"]:
+            db.execute(
+                """INSERT INTO wine_certifications (id, wine_id, type, certifying_body, certification_date)
+                   VALUES (?, ?, ?, ?, ?)""",
+                (cert["id"], wine_id, cert["type"], cert["certifying_body"], cert["certification_date"])
+            )
+        db.commit()
         return {"id": wine_id}, HTTPStatus.CREATED
 
 
