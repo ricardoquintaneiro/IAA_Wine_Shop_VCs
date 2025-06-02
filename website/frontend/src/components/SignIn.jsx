@@ -1,6 +1,7 @@
 import React from "react";
 import { Form, Input, Button } from "@heroui/react";
 import MyNavbar from "./Navbar.jsx";
+import MyFooter from './Footer.jsx';
 
 export const EyeSlashFilledIcon = (props) => {
     return (
@@ -124,6 +125,7 @@ export default function SignIn() {
                         </div>
                     </Form>
                 </main>
+                <MyFooter />
             </div>
         </>
     );

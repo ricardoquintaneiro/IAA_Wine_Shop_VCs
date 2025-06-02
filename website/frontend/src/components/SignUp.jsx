@@ -1,6 +1,7 @@
 import React from "react";
 import { Form, Input, Button, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@heroui/react";
 import MyNavbar from "./Navbar.jsx";
+import MyFooter from './Footer.jsx';
 
 export const EyeSlashFilledIcon = (props) => {
     return (
@@ -190,6 +191,7 @@ export default function SignUp() {
                         </ModalFooter>
                     </ModalContent>
                 </Modal>
+                <MyFooter />
             </div>
         </>
     );
