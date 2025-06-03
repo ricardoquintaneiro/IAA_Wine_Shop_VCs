@@ -22,5 +22,5 @@ $ node --version
 ## Generate the VCs
 
 ```bash
-$ cd product-issuer && node product-issuer/wineVCIssuer.mjs
+$ cd product-issuer && node wineVCIssuer.mjs
 ```
