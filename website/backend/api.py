@@ -11,6 +11,7 @@ import jwt
 from dotenv import load_dotenv
 from flask import Flask, g, request
 from flask_restful import Api, Resource
+from flask_cors import CORS
 
 load_dotenv()
 DATABASE_PATH = os.getenv("DATABASE_PATH")
@@ -27,6 +28,7 @@ REFRESH_TOKEN_EXPIRATION_DAYS = 7
 
 app = Flask(__name__)
 api = Api(app)
+CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}}) # CORS policy
 
 def get_db():
     if 'db' not in g:
@@ -46,6 +48,7 @@ def init_db():
     db.execute(
         "CREATE TABLE IF NOT EXISTS users ("
         "username TEXT PRIMARY KEY, "
+        "email TEXT NOT NULL UNIQUE, "
         "salt TEXT NOT NULL, "
         "password_hash TEXT NOT NULL)"
     )
@@ -135,9 +138,10 @@ class Register(Resource):
     def post(self):
         data = request.get_json()
         username = data.get("username")
+        email = data.get("email")
         password = data.get("password")
-        if not username or not password:
-            return {"message": "Username and password are required"}, HTTPStatus.BAD_REQUEST
+        if not username or not password or not email:
+            return {"message": "Username, email, and password are required"}, HTTPStatus.BAD_REQUEST
         if len(password) < 8:
             return {"message": "Password must be at least 8 characters long"}, HTTPStatus.BAD_REQUEST
         if not password.isprintable():
@@ -148,11 +152,12 @@ class Register(Resource):
             return {"message": "User already exists"}, HTTPStatus.BAD_REQUEST
         salt, pwd_hash = hash_password(password)
         db.execute(
-            "INSERT INTO users (username, salt, password_hash) VALUES (?, ?, ?)",
-            (username, salt, pwd_hash)
+            "INSERT INTO users (username, email, salt, password_hash) VALUES (?, ?, ?, ?)",
+            (username, email, salt, pwd_hash),
         )
         db.commit()
-        return {"message": "User registered successfully"}, HTTPStatus.CREATED
+        return {"message": "User created successfully"}, HTTPStatus.CREATED
+
 
 class Login(Resource):
     def post(self):

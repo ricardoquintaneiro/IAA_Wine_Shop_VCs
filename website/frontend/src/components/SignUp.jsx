@@ -69,22 +69,54 @@ export default function SignUp() {
     const [isLoading, setIsLoading] = React.useState(false);
     const toggleVisibility = () => setIsVisible(!isVisible);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        let data = Object.fromEntries(new FormData(e.currentTarget));
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    let data = Object.fromEntries(new FormData(e.currentTarget));
+    console.log("Form data:", data);
 
+    // Send the data to your Flask endpoint
+    try {
         setIsLoading(true);
         setShowAlert(true);
 
-        // Wait for 3 seconds to read the modal
-        await new Promise(resolve => setTimeout(resolve, 3000));
+        const response = await fetch("http://localhost:5000/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                username: data.username,
+                email: data.email,
+                password: data.password,
+            }),
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            // Handle error message from the backend
+            alert(result.message || "An error occurred during registration.");
+            setIsLoading(false);
+            setShowAlert(false);
+            return;
+        }
+
+        await new Promise(resolve => setTimeout(resolve, 2000));
 
         setIsLoading(false);
 
         setTimeout(() => {
-            window.location.href = '/signin';
+            window.location.href = "/login";
         }, 500);
-    };
+
+    } catch (error) {
+        console.error("Registration error:", error);
+        alert("An unexpected error occurred.");
+        setIsLoading(false);
+        setShowAlert(false);
+    }
+};
+
 
     return (
         <>
@@ -107,6 +139,7 @@ export default function SignUp() {
                             isRequired
                             errorMessage="Please enter a valid username"
                             label="Username"
+                            name="username"
                             placeholder="Enter your username"
                             type="text"
                             variant="bordered" />
@@ -114,6 +147,7 @@ export default function SignUp() {
                             isRequired
                             errorMessage="Please enter a valid email"
                             label="Email"
+                            name="email"
                             placeholder="Enter your email"
                             type="email"
                             variant="bordered"
@@ -121,6 +155,11 @@ export default function SignUp() {
                         <Input
                             isRequired
                             className="max-w-xs"
+                            validate={(value) => {
+                                if (value.length < 8) {
+                                    return "Password must be at least 8 characters long";
+                                }
+                            }}
                             endContent={
                                 <button
                                     aria-label="toggle password visibility"
@@ -136,6 +175,7 @@ export default function SignUp() {
                                 </button>
                             }
                             label="Password"
+                            name="password"
                             placeholder="Enter your password"
                             type={isVisible ? "text" : "password"}
                             variant="bordered"

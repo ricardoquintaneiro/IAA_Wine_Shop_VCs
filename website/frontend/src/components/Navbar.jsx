@@ -24,10 +24,10 @@ export default function MyNavbar() {
       </NavbarBrand>
       <NavbarContent justify="end">
         <NavbarItem className="lg:flex">
-          <Link color="default" href="signin">Login</Link>
+          <Link color="default" href="login">Login</Link>
         </NavbarItem>
         <NavbarItem>
-          <Button as={Link} color="default" href="signup" variant="flat">
+          <Button as={Link} color="default" href="register" variant="flat">
             Sign Up
           </Button>
         </NavbarItem>
