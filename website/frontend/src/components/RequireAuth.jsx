@@ -84,6 +84,8 @@ export const getCurrentUser = () => {
 // Logout function
 export const logout = () => {
     clearAuthData();
+    // Clear age verification on logout if desired
+    // localStorage.removeItem("ageVerified");
     window.location.href = "/";
 };
 
@@ -137,7 +139,7 @@ export const ProtectedRoute = ({ children }) => {
     if (loading) {
         return (
             <div className="flex justify-center items-center min-h-screen">
-                <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500"></div>
+                <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-purple-500"></div>
             </div>
         );
     }
@@ -162,7 +164,7 @@ export const withAuth = (WrappedComponent) => {
         if (!isAuthenticated()) {
             return (
                 <div className="flex justify-center items-center min-h-screen">
-                    <div>Redirecting to login...</div>
+                    <div>Redirecting...</div>
                 </div>
             );
         }
@@ -171,27 +173,31 @@ export const withAuth = (WrappedComponent) => {
     };
 };
 
-// Component for React Router - protects nested routes
-export const RequireAuth = () => {
-    const { isAuthenticated, loading } = useAuth();
-    const location = window.location.pathname;
+// Component for requiring age verification (but not authentication)
+export const RequireAge = () => {
+    const ageVerified = localStorage.getItem("ageVerified");
     
-    // Allow access to login and register pages without authentication
-    const publicRoutes = ['/login', '/register'];
-    const isPublicRoute = publicRoutes.includes(location);
-    
-    // Show loading state while checking authentication
-    if (loading && !isPublicRoute) {
-        return (
-            <div className="flex justify-center items-center min-h-screen">
-                <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500"></div>
-            </div>
-        );
+    // If age is not verified, redirect to home page for age verification
+    if (ageVerified !== "true") {
+        window.location.href = "/";
+        return null;
     }
     
-    // If route is public, always allow access
-    if (isPublicRoute) {
-        return <Outlet />;
+    // If age is verified, render outlet
+    return <Outlet />;
+};
+
+// Component for React Router - protects nested routes (requires authentication)
+export const RequireAuth = () => {
+    const { isAuthenticated, loading } = useAuth();
+    
+    // Show loading state while checking authentication
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center min-h-screen">
+                <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-purple-500"></div>
+            </div>
+        );
     }
     
     // If route is protected and user is not authenticated, redirect to login
@@ -200,7 +206,7 @@ export const RequireAuth = () => {
         return null;
     }
     
-    // If authenticated and accessing protected route, render outlet
+    // If authenticated, render outlet
     return <Outlet />;
 };
 

@@ -4,6 +4,7 @@ import MyNavbar from "./Navbar.jsx";
 import MyFooter from './Footer.jsx';
 import { ImCross } from "react-icons/im";
 import { FaCheck } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 
 export const EyeSlashFilledIcon = (props) => {
     return (
@@ -70,9 +71,19 @@ export default function SignIn() {
     const [isLoading, setIsLoading] = React.useState(false);
     const [showAlert, setShowAlert] = React.useState(false);
     const [alertMessage, setAlertMessage] = React.useState("");
+    const navigate = useNavigate();
     const [alertType, setAlertType] = React.useState("success"); // "success" or "error"
 
     const toggleVisibility = () => setIsVisible(!isVisible);
+
+        const handleLoginSuccess = (response) => {
+        // Your existing login logic (storing tokens, etc.)
+        localStorage.setItem("access_token", response.access_token);
+        // ... other auth logic
+        
+        // Redirect to shop after successful login
+        navigate("/shop");
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
