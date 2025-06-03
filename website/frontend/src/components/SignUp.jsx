@@ -2,6 +2,7 @@ import React from "react";
 import { Form, Input, Button, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@heroui/react";
 import MyNavbar from "./Navbar.jsx";
 import MyFooter from './Footer.jsx';
+import { FaCheck } from "react-icons/fa";
 
 export const EyeSlashFilledIcon = (props) => {
     return (
@@ -204,22 +205,13 @@ const handleSubmit = async (e) => {
                     <ModalContent className="bg-green-50 text-green-800">
                         <ModalHeader className="flex flex-col gap-1">
                             <div className="flex items-center gap-2 ">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-6 w-6 text-success-600"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                >
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
+                                <FaCheck className="text-2xl text-green-600" />
 
                                 Account Created Successfully!
                             </div>
                         </ModalHeader>
                         <ModalBody>
-                            <p>Your account has been created successfully. You will be redirected to the Sign In page shortly.</p>
+                            <p>Your account has been created successfully. You will be redirected to the <b>Login </b> page shortly.</p>
                         </ModalBody>
                         <ModalFooter>
                             {isLoading && (
