@@ -1,0 +1,24 @@
+{
+  "@context": [
+    "https://www.w3.org/2018/credentials/v1",
+    "https://www.w3.org/2018/credentials/examples/v1"
+  ],
+  "id": "<A unique identifier for the Verifiable Credential>",
+  "type": ["VerifiableCredential", "AgeVerificationCredential"],
+  "issuer": "<The URL or Decentralized Identifier (DID) of the entity issuing the credential>",
+  "issuanceDate": "<The date and time when this credential was issued, formatted as ISO 8601 (YYYY-MM-DDTHH:mm:ssZ)>",
+  "expirationDate": "<The date and time when this credential will expire, formatted as ISO 8601 (YYYY-MM-DDTHH:mm:ssZ)>",
+  "credentialSubject": {
+    "clientID": "<The Decentralized Identifier (DID) or other unique identifier of the person receiving the credential>",
+    "clientName": "<Full name of the credential owner>",
+    "dateOfBirth": "<The date of birth of the credential holder, formatted as YYYY-MM-DD>",
+    "ofLegalAge": "<Boolean value (true/false) indicating whether the user meets the legal drinking age>"
+  },
+  "proof": {
+    "type": "<The cryptographic signature algorithm used to sign this credential>",
+    "created": "<The timestamp when the credential was signed, in ISO 8601 format>",
+    "proofPurpose": "<Describes the intent of the proof, typically 'assertionMethod' for verifying the authenticity of the credential>",
+    "verificationMethod": "<A reference to the issuer's public key or verification method>",
+    "proofValue": "<A cryptographic signature proving the authenticity of this credential>"
+  }
+}
