@@ -73,7 +73,6 @@ export default function SignUp() {
 const handleSubmit = async (e) => {
     e.preventDefault();
     let data = Object.fromEntries(new FormData(e.currentTarget));
-    console.log("Form data:", data);
 
     // Send the data to your Flask endpoint
     try {

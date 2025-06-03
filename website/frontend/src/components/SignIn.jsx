@@ -88,7 +88,6 @@ export default function SignIn() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         let data = Object.fromEntries(new FormData(e.currentTarget));
-        console.log("Form data:", data);
 
         // Validate required fields
         if (!data.username || !data.password) {
