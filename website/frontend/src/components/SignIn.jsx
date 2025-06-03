@@ -1,7 +1,10 @@
 import React from "react";
-import { Form, Input, Button } from "@heroui/react";
+import { Form, Input, Button, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@heroui/react";
 import MyNavbar from "./Navbar.jsx";
 import MyFooter from './Footer.jsx';
+import { ImCross } from "react-icons/im";
+import { FaCheck } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 
 export const EyeSlashFilledIcon = (props) => {
     return (
@@ -65,7 +68,85 @@ export const EyeFilledIcon = (props) => {
 
 export default function SignIn() {
     const [isVisible, setIsVisible] = React.useState(false);
+    const [isLoading, setIsLoading] = React.useState(false);
+    const [showAlert, setShowAlert] = React.useState(false);
+    const [alertMessage, setAlertMessage] = React.useState("");
+    const navigate = useNavigate();
+    const [alertType, setAlertType] = React.useState("success"); // "success" or "error"
+
     const toggleVisibility = () => setIsVisible(!isVisible);
+
+        const handleLoginSuccess = (response) => {
+        // Your existing login logic (storing tokens, etc.)
+        localStorage.setItem("access_token", response.access_token);
+        // ... other auth logic
+        
+        // Redirect to shop after successful login
+        navigate("/shop");
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        let data = Object.fromEntries(new FormData(e.currentTarget));
+        console.log("Form data:", data);
+
+        // Validate required fields
+        if (!data.username || !data.password) {
+            setAlertMessage("Please enter both username and password");
+            setAlertType("error");
+            setShowAlert(true);
+            return;
+        }
+
+        try {
+            setIsLoading(true);
+
+            const response = await fetch("http://localhost:5000/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    username: data.username,
+                    password: data.password,
+                }),
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                // Handle error message from the backend
+                setAlertMessage(result.message || "An error occurred during sign in.");
+                setAlertType("error");
+                setShowAlert(true);
+                setIsLoading(false);
+                return;
+            }
+
+            // Note: In a real app, you might want to use httpOnly cookies for security
+            localStorage.setItem("access_token", result.access_token);
+            localStorage.setItem("refresh_token", result.refresh_token);
+
+            window.dispatchEvent(new CustomEvent("authStatusChange"));
+
+            setAlertMessage("Sign in successful! Redirecting to Main Page");
+            setAlertType("success");
+            setShowAlert(true);
+
+            // Redirect after a short delay
+            setTimeout(() => {
+                window.location.href = "/";
+            }, 2000);
+
+        } catch (error) {
+            console.error("Sign in error:", error);
+            setAlertMessage("An unexpected error occurred. Please try again.");
+            setAlertType("error");
+            setShowAlert(true);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     return (
         <>
@@ -78,16 +159,15 @@ export default function SignIn() {
                 <main className="flex-1 flex flex-col items-center py-4">
                     <Form
                         className="w-full max-w-xs gap-4"
-                        onReset={() => setAction("reset")}
-                        onSubmit={(e) => {
-                            e.preventDefault();
-                            let data = Object.fromEntries(new FormData(e.currentTarget));
-
-                            setAction(`submit ${JSON.stringify(data)}`);
+                        onReset={() => {
+                            setShowAlert(false);
+                            setIsLoading(false);
                         }}
+                        onSubmit={handleSubmit}
                     >
                         <Input
                             isRequired
+                            name="username"
                             errorMessage="Please enter a valid username"
                             label="Username"
                             placeholder="Enter your username"
@@ -95,6 +175,7 @@ export default function SignIn() {
                             variant="bordered" />
                         <Input
                             isRequired
+                            name="password"
                             className="max-w-xs"
                             endContent={
                                 <button
@@ -116,18 +197,65 @@ export default function SignIn() {
                             variant="bordered"
                         />
                         <div className="flex gap-2">
-                            <Button color="default" type="submit" variant="flat">
+                            <Button
+                                color="default"
+                                type="submit"
+                                variant="flat"
+                                isLoading={isLoading}
+                                disabled={isLoading}
+                            >
                                 Sign In
                             </Button>
-                            <Button type="reset" variant="light">
+                            <Button type="reset" variant="light" disabled={isLoading}>
                                 Reset
                             </Button>
                         </div>
                     </Form>
                 </main>
+
+                {/* Alert Modal */}
+                <Modal
+                    isOpen={showAlert}
+                    onOpenChange={setShowAlert}
+                    hideCloseButton={alertType === "success"}
+                    isDismissable={alertType !== "success"}
+                    backdrop="blur"
+                >
+                    <ModalContent className={alertType === "success" ? "bg-green-50 text-green-800" : "bg-red-50 text-red-800"}>
+                        <ModalHeader className="flex flex-col gap-1">
+                            <div className="flex items-center gap-2">
+                                {alertType === "success" ? (
+                                    <FaCheck className="h-6 w-6 text-green-600" />
+                                ) : (
+                                    <ImCross className="h-6 w-6 text-red-600" />
+                                )}
+                                {alertType === "success" ? "Sign In Successful!" : "Sign In Failed"}
+                            </div>
+                        </ModalHeader>
+                        <ModalBody>
+                            <p>{alertMessage}</p>
+                        </ModalBody>
+                        <ModalFooter>
+                            {alertType === "success" && isLoading && (
+                                <div className="flex items-center gap-2">
+                                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
+                                    <span className="text-sm">Redirecting...</span>
+                                </div>
+                            )}
+                            {alertType === "error" && (
+                                <Button
+                                    color="danger"
+                                    variant="light"
+                                    onPress={() => setShowAlert(false)}
+                                >
+                                    Close
+                                </Button>
+                            )}
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal>
                 <MyFooter />
             </div>
         </>
     );
 }
-
