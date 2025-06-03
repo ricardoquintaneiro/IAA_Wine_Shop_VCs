@@ -1,1 +1,15 @@
+# Ignore Python virtual environments
+venv
+.venv
+
+# Ignore .env files
+.env
+
+# Ignore SQLite3 database files
+*.sqlite3
+
+# Ignore python cache files
+__pycache__
+
+# Ignore node modules
 node_modules
