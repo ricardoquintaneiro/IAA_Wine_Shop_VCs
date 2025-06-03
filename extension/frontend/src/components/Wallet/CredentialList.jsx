@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function CredentialList({ credentials, onRemove }) {
   if (!credentials.length) {
     return <p className="text-gray-500">No credentials stored yet.</p>;
