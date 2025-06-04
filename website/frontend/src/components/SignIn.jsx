@@ -76,20 +76,10 @@ export default function SignIn() {
 
     const toggleVisibility = () => setIsVisible(!isVisible);
 
-        const handleLoginSuccess = (response) => {
-        // Your existing login logic (storing tokens, etc.)
-        localStorage.setItem("access_token", response.access_token);
-        // ... other auth logic
-        
-        // Redirect to shop after successful login
-        navigate("/shop");
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         let data = Object.fromEntries(new FormData(e.currentTarget));
 
-        // Validate required fields
         if (!data.username || !data.password) {
             setAlertMessage("Please enter both username and password");
             setAlertType("error");
