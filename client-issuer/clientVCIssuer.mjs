@@ -28,7 +28,6 @@ loader.addStatic("https://example.com/client-context/v1", {
     clientID: "https://example.com/clientID",
     clientName: "https://example.com/clientName",
     dateOfBirth: "https://example.com/dateOfBirth",
-    ofLegalAge: "https://example.com/ofLegalAge",
   },
 });
 

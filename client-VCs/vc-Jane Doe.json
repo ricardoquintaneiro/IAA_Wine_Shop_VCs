@@ -1,0 +1,28 @@
+{
+  "@context": [
+    "https://www.w3.org/2018/credentials/v1",
+    "https://example.com/client-context/v1",
+    "https://w3id.org/security/data-integrity/v2"
+  ],
+  "id": "urn:uuid:70c6ea43-3bc1-4d11-9c01-213b18ae8c14",
+  "type": [
+    "VerifiableCredential",
+    "AgeVerificationCredential"
+  ],
+  "issuer": "did:key:zDnaev4LdeauHEjxsapQ4Ru8ggdzZeUgwEhzcJUuzu8uCTSC3",
+  "issuanceDate": "2025-06-04T14:10:05.741Z",
+  "expirationDate": "2026-06-04T14:10:05.741Z",
+  "credentialSubject": {
+    "clientID": "did:subject:98765432.1.XYZ",
+    "clientName": "Jane Doe",
+    "dateOfBirth": "2001-01-01"
+  },
+  "proof": {
+    "type": "DataIntegrityProof",
+    "created": "2025-06-04T14:10:05Z",
+    "verificationMethod": "did:key:zDnaev4LdeauHEjxsapQ4Ru8ggdzZeUgwEhzcJUuzu8uCTSC3#zDnaev4LdeauHEjxsapQ4Ru8ggdzZeUgwEhzcJUuzu8uCTSC3",
+    "cryptosuite": "ecdsa-rdfc-2019",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z5gnoJJfpdAXwYSz8eBrHeo3nnFpjZfKKJxpznRS3f6qQu44hhCttnXuX9UVqRFVDaUk5maP8sSpuFzKbm4f76knR"
+  }
+}

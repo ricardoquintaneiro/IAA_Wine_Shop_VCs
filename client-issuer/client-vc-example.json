@@ -11,8 +11,7 @@
   "credentialSubject": {
     "clientID": "<The Decentralized Identifier (DID) or other unique identifier of the person receiving the credential>",
     "clientName": "<Full name of the credential owner>",
-    "dateOfBirth": "<The date of birth of the credential holder, formatted as YYYY-MM-DD>",
-    "ofLegalAge": "<Boolean value (true/false) indicating whether the user meets the legal drinking age>"
+    "dateOfBirth": "<The date of birth of the credential holder, formatted as YYYY-MM-DD>"
   },
   "proof": {
     "type": "<The cryptographic signature algorithm used to sign this credential>",
