@@ -1,5 +1,4 @@
-import MyNavbar from './components/Navbar';
-import MyFooter from './components/Footer';
+import { useState } from 'react';
 import { Card, CardHeader, CardBody, CardFooter } from '@heroui/card';
 import { Button } from '@heroui/button';
 import { Chip } from '@heroui/chip';
@@ -10,9 +9,10 @@ import wine3 from "../src/assets/wines_photos/flor_campo_branco.webp";
 import wine4 from "../src/assets/wines_photos/pomadao_alvarinho.webp";
 import wine5 from "../src/assets/wines_photos/solar_serra_branco.webp";
 import wine6 from "../src/assets/wines_photos/vale_secreto_tinto.webp";
+import MyNavbar from './components/Navbar';
+import MyFooter from './components/Footer';
+import VC_Modal from './components/VC_Modal';
 
-
-// Mock wine data - replace with your actual data
 const featuredWines = [
   {
     id: 1,
@@ -102,7 +102,7 @@ const featuredWines = [
   }
 ];
 
-function WineCard({ wine }) {
+function WineCard({ wine, onShowDetails }) {
   return (
     <div className="h-full">
       <Card className="shadow-2xl bg-white border border-gray-100 h-full flex flex-col hover:scale-105 hover:shadow-3xl transition-all duration-300 ease-in-out cursor-pointer">
@@ -176,6 +176,7 @@ function WineCard({ wine }) {
               variant="bordered"
               size="sm"
               className="border-purple-300 text-purple-600 hover:bg-purple-50"
+              onPress={() => onShowDetails(wine)}
             >
               Details
             </Button>
@@ -187,8 +188,22 @@ function WineCard({ wine }) {
 }
 
 export default function WineShopLanding() {
+  const [selectedWine, setSelectedWine] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleShowDetails = (wine) => {
+    setSelectedWine(wine);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedWine(null);
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
+
       <MyNavbar />
 
       <main className="flex-1">
@@ -200,13 +215,26 @@ export default function WineShopLanding() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {featuredWines.map((wine) => (
-              <WineCard key={wine.id} wine={wine} />
+              <WineCard
+                key={wine.id}
+                wine={wine}
+                onShowDetails={handleShowDetails}
+              />
             ))}
           </div>
         </div>
       </main>
 
       <MyFooter />
+
+      {/* Verification Modal */}
+      {selectedWine && (
+        <VC_Modal
+          wine={selectedWine}
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+        />
+      )}
     </div>
   );
 }

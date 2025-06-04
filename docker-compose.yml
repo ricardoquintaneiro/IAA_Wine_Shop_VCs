@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  # Backend service
+  backend:
+    build:
+      context: ./website/backend
+      dockerfile: Dockerfile
+    container_name: wineshop-backend
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=production
+      - FLASK_APP=api.py
+    volumes:
+      # Mount the database file to persist data
+      - ./website/backend/wineshop.sqlite3:/app/wineshop.sqlite3
+      # Mount .env file if it exists
+      - ./website/backend/.env:/app/.env
+    networks:
+      - wineshop-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Frontend service
+  frontend:
+    build:
+      context: ./website/frontend
+      dockerfile: Dockerfile
+    container_name: wineshop-frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - NODE_ENV=development
+      - VITE_API_URL=http://backend:5000
+    volumes:
+      # Mount source code for hot reload in development
+      - ./website/frontend:/app
+      - /app/node_modules
+    networks:
+      - wineshop-network
+    depends_on:
+      - backend
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+
+networks:
+  wineshop-network:
+    driver: bridge
+
+volumes:
+  # Optional: Create named volume for database persistence
+  wineshop-db:
+    driver: local
