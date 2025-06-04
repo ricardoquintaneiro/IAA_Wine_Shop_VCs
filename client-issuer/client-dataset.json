@@ -1,0 +1,18 @@
+{
+  "clients": [
+    {
+      "credentialSubject": {
+        "clientID": "did:subject:12345678.9.XYZ",
+        "clientName": "John Doe",
+        "dateOfBirth": "2008-08-08"
+      }
+    },
+    {
+      "credentialSubject": {
+        "clientID": "did:subject:98765432.1.XYZ",
+        "clientName": "Jane Doe",
+        "dateOfBirth": "2001-01-01"
+      }
+    }
+  ]
+}
