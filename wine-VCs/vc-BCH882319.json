@@ -1,0 +1,101 @@
+{
+  "@context": [
+    "https://www.w3.org/2018/credentials/v1",
+    "https://example.com/wine-context/v1",
+    "https://w3id.org/security/data-integrity/v2"
+  ],
+  "id": "urn:uuid:5510d9f1-97e9-4e58-8b52-b82d37ba2d65",
+  "type": [
+    "VerifiableCredential",
+    "WineCertificationCredential"
+  ],
+  "issuer": "did:key:zDnaeTVPyhGaA5aDvGqteTqdasjWFmdi7DXDdvobYEdo7Lr9U",
+  "issuanceDate": "2025-06-01T19:23:12.418Z",
+  "expirationDate": "2026-06-01T19:23:12.418Z",
+  "credentialSubject": {
+    "productId": "urn:epc:id:sgln:3905704921108.BCH882319",
+    "productName": "Vale Secreto Tinto",
+    "productType": "Wine",
+    "wineType": "Red",
+    "origin": {
+      "country": "Portugal",
+      "region": "Alentejo",
+      "subRegion": "Borba",
+      "producer": {
+        "name": "Adega Monte Branco",
+        "did": "did:adega-monte-branco"
+      }
+    },
+    "certifications": [
+      {
+        "certificationType": [
+          "DOP"
+        ],
+        "certifyingAuthority": "CVRA",
+        "certificateId": "CVRA-RED-2023-882319",
+        "certificationDate": "2023-05-15"
+      }
+    ],
+    "grapeVarieties": [
+      "Aragonez",
+      "Trincadeira"
+    ],
+    "alcoholContent": {
+      "value": 14,
+      "unit": "%"
+    },
+    "volume": {
+      "value": 750,
+      "unit": "ml"
+    },
+    "analyticalData": {
+      "fixedAcidity": {
+        "value": 6.1,
+        "unit": "g/L"
+      },
+      "volatileAcidity": {
+        "value": 0.42,
+        "unit": "g/L"
+      },
+      "citricAcid": {
+        "value": 0.25,
+        "unit": "g/L"
+      },
+      "residualSugar": {
+        "value": 4.2,
+        "unit": "g/L"
+      },
+      "chlorides": {
+        "value": 0.039,
+        "unit": "g/L"
+      },
+      "freeSulfurDioxide": {
+        "value": 22,
+        "unit": "mg/L"
+      },
+      "totalSulfurDioxide": {
+        "value": 85,
+        "unit": "mg/L"
+      },
+      "density": {
+        "value": 0.996,
+        "unit": "g/cm³"
+      },
+      "pH": 3.45,
+      "sulphates": {
+        "value": 0.45,
+        "unit": "g/L"
+      }
+    },
+    "vintage": 2022,
+    "batchCode": "BCH882319"
+  },
+  "proof": {
+    "type": "DataIntegrityProof",
+    "created": "2025-06-01T19:23:12Z",
+    "verificationMethod": "did:key:zDnaeTVPyhGaA5aDvGqteTqdasjWFmdi7DXDdvobYEdo7Lr9U#zDnaeTVPyhGaA5aDvGqteTqdasjWFmdi7DXDdvobYEdo7Lr9U",
+    "cryptosuite": "ecdsa-rdfc-2019",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z4FHUoZnqjUT5nrXuJvWDFfALK3rwkZYYYJagqtbc9oeM53aufdkV47TkG72x9f1EMcLK8Hjf5BYbBTNud5dqdnFw"
+  }
+}

@@ -13,3 +13,6 @@ __pycache__
 
 # Ignore circomlib
 circomlib/
+
+# Ignore node modules
+node_modules
