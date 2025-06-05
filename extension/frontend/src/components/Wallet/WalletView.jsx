@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import AddCredential from "./AddCredential";
 import { groth16 } from "snarkjs";
+import witnessCalculatorBuilder from "../../assets/witness_calculator.js";
 
 async function generateProof(input) {
   // 1. Fetch circuit artifacts
@@ -11,8 +12,7 @@ async function generateProof(input) {
   const zkeyBuffer = await zkeyResponse.arrayBuffer();
 
   // 2. Import witness calculator
-  const wcModule = await import("/assets/age_check_js/witness_calculator.js");
-  const witnessCalculator = await wcModule.default(new Uint8Array(wasmBuffer));
+  const witnessCalculator = await witnessCalculatorBuilder(new Uint8Array(wasmBuffer));
 
   // 3. Calculate witness
   const witness = await witnessCalculator.calculateWTNSBin(input, 0);

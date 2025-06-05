@@ -36,6 +36,10 @@ If in need of regenerating the circuit, follow these steps:
 1. Copy the generated files to the frontend:
     ```bash
     mkdir -p ../frontend/src/assets/
-    cp age_check.r1cs age_check.sym age_check.zkey ../frontend/src/assets/
-    cp -r age_check_js/* ../frontend/src/assets/
+    cp age_check.r1cs age_check.sym age_check.zkey ../frontend/public/assets/
+    cp age_check_js/age_check.wasm ../frontend/public/assets/
+    cp age_check_js/witness_calculator.js ../frontend/src/assets/
     ```
+
+1. Update witness_calculator.js, which is for Node.JS, to React:
+    - Replace `module.exports =` with `export default`
