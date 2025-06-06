@@ -35,6 +35,8 @@ services:
       - NODE_ENV=production
     ports:
       - "3001:3001"
+    volumes:
+      - ./extension/prover:/app
     networks:
       - wineshop-network
     restart: unless-stopped
