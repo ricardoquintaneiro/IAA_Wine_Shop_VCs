@@ -109,15 +109,15 @@
       }
     }
   ],
-  "holder": "did:web:ua.pt:holder:student:456",
+  "holder": "did:web:wineshop.pt:holder:vendor:123",
   "proof": {
     "type": "DataIntegrityProof",
-    "created": "2025-06-06T00:50:52Z",
-    "verificationMethod": "did:web:wineshop.pt:issuer:123#z82Lm3ZPE1zi5hvahVzj9SaEHFEq8FCFEcnY4AYhw49Fki4fyWukd6PT3xqNwRwyHaKMtbY",
+    "created": "2025-06-06T12:56:46Z",
+    "verificationMethod": "did:web:wineshop.pt:issuer:123#z82LkvW5TC8q2UMtKEN87aPVegENPDoN9tBN1cf9fRRSKmWjcDxKBu4VRyjzhAEycJwfeLC",
     "cryptosuite": "ecdsa-rdfc-2019",
     "proofPurpose": "authentication",
     "challenge": "wine-challenge-321",
     "domain": "https://wineshop.pt/",
-    "proofValue": "zLgCVYsTqhDk3tFGUfiYPKzKKyh85KWrU6nyJZ95PmHd4TG8j8fTShuVQUXgqtisoTHrFE1Ug85eLGjV7wm9oE31W5uob8thios9aDSu2NBYBpmwiVEgHaYu5ucTt8r3aNCr"
+    "proofValue": "zcrhAmZSgNLP77sKBPAT6Tpx8gtPVUd6HUViVYNUJYadEwdCiteWbMkcqc6cE4pqx1NAxMRH3mWFtEQE5TrGFMpVy1xyuQoGt87NdsxRtFrq9ZMTGePh5vjkUQ8GWrH5Lz69"
   }
 }

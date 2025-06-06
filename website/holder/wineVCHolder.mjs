@@ -130,7 +130,7 @@ async function main({ verifiableCredential, documentLoader }, vpFileName) {
   loader.addStatic(vpDidVm.id, vpDidVm);
 
   // presentation holder
-  const holder = "did:web:ua.pt:holder:student:456";
+  const holder = "did:web:wineshop.pt:holder:vendor:123";
   // presentation challenge - required for authentication proof purpose
   const challenge = "wine-challenge-321";
   // presentation domain - optional in this use case
