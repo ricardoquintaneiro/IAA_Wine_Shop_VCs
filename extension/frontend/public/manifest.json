@@ -1,0 +1,10 @@
+{
+    "manifest_version": 3,
+    "name": "VC Wallet",
+    "version": "1.0.0",
+    "description": "A wallet for managing verifiable credentials",
+    "action": {
+        "default_popup": "index.html"
+    },
+    "permissions": []
+}

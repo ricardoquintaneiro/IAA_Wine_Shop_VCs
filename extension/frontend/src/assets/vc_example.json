@@ -1,0 +1,28 @@
+{
+  "@context": [
+    "https://www.w3.org/2018/credentials/v1",
+    "https://example.com/client-context/v1",
+    "https://w3id.org/security/data-integrity/v2"
+  ],
+  "id": "urn:uuid:16e737e6-f97c-4ac7-a034-618414bb6de1",
+  "type": [
+    "VerifiableCredential",
+    "AgeVerificationCredential"
+  ],
+  "issuer": "did:key:zDnaeVVM5f6x4attsseETmLUQQRRijFFmkXRXxVadLhm8pLDf",
+  "issuanceDate": "2025-06-03T16:21:51.627Z",
+  "expirationDate": "2026-06-03T16:21:51.628Z",
+  "credentialSubject": {
+    "clientID": "did:subject:12345678.9.XYZ",
+    "clientName": "John Doe",
+    "dateOfBirth": "2007-08-08"
+  },
+  "proof": {
+    "type": "DataIntegrityProof",
+    "created": "2025-06-03T16:21:51Z",
+    "verificationMethod": "did:key:zDnaeVVM5f6x4attsseETmLUQQRRijFFmkXRXxVadLhm8pLDf#zDnaeVVM5f6x4attsseETmLUQQRRijFFmkXRXxVadLhm8pLDf",
+    "cryptosuite": "ecdsa-rdfc-2019",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z2CJdeBmYYCyGoDb8dx6XcARAeiNrG9hyrhNgwc2aQR1T8dhEc5QpY7kvmMS2s77PTYC67Zr6wuu28HBrQTyMTYD"
+  }
+}
