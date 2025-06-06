@@ -1,9 +1,13 @@
 const express = require('express');
+const cors = require('cors');
 const snarkjs = require('snarkjs');
 const fs = require('fs');
 const path = require('path');
 
 const app = express();
+app.use(cors({
+  origin: "http://localhost:5173"
+}));
 app.use(express.json());
 
 const vkey = JSON.parse(fs.readFileSync(path.join(__dirname, 'verification_key.json')));
