@@ -1,47 +1,51 @@
 import { useState, useEffect } from "react";
 import AddCredential from "./AddCredential";
-import { groth16 } from "snarkjs";
-import witnessCalculatorBuilder from "../../assets/witness_calculator.js";
 
-async function generateProof(input) {
-  // 1. Fetch circuit artifacts
-  const wasmResponse = await fetch("/assets/age_check.wasm");
-  const wasmBuffer = await wasmResponse.arrayBuffer();
-
-  const zkeyResponse = await fetch("/assets/age_check.zkey");
-  const zkeyBuffer = await zkeyResponse.arrayBuffer();
-
-  // 2. Import witness calculator
-  const witnessCalculator = await witnessCalculatorBuilder(new Uint8Array(wasmBuffer));
-
-  // 3. Calculate witness
-  const witness = await witnessCalculator.calculateWTNSBin(input, 0);
-
-  // 4. Generate proof
-  const { proof, publicSignals } = await groth16.prove(new Uint8Array(zkeyBuffer), witness);
-
-  return { proof, publicSignals };
+function getStorage() {
+  if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.local) {
+    return {
+      get: (key, cb) => chrome.storage.local.get([key], (result) => cb(result[key] || [])),
+      set: (key, value) => chrome.storage.local.set({ [key]: value }),
+      remove: (key) => chrome.storage.local.remove(key),
+    };
+  } else {
+    return {
+      get: (key, cb) => cb(JSON.parse(localStorage.getItem(key) || "[]")),
+      set: (key, value) => localStorage.setItem(key, JSON.stringify(value)),
+      remove: (key) => localStorage.removeItem(key),
+    };
+  }
 }
+
+const storage = getStorage();
 
 export default function WalletView() {
   const [credentials, setCredentials] = useState([]);
 
-  // Load credentials from localStorage
+  // Load credentials from storage
   const loadCredentials = () => {
-    const saved = localStorage.getItem("credentials");
-    setCredentials(saved ? JSON.parse(saved) : []);
+    storage.get("credentials", setCredentials);
   };
 
   useEffect(() => {
     loadCredentials();
   }, []);
 
+
+  useEffect(() => {
+    const onFocus = () => loadCredentials();
+    window.addEventListener("focus", onFocus);
+    return () => window.removeEventListener("focus", onFocus);
+  }, []);
+
+
   const handleRemove = (id) => {
-    const saved = localStorage.getItem("credentials");
-    const credentials = saved ? JSON.parse(saved) : [];
-    const updated = credentials.filter(vc => vc.id !== id);
-    localStorage.setItem("credentials", JSON.stringify(updated));
-    setCredentials(updated);
+    storage.get("credentials", (credentials) => {
+      const updated = credentials.filter(vc => vc.id !== id);
+      storage.set("credentials", updated);
+      storage.remove(`proofs:${id}`);
+      setCredentials(updated);
+    });
   };
 
   const handleGenerateProof = async (vc) => {
@@ -51,8 +55,13 @@ export default function WalletView() {
     const input = { birthTimestamp, currentTimestamp };
 
     try {
-      const { proof, publicSignals } = await generateProof(input);
-      localStorage.setItem(`proofs:${vc.id}`, JSON.stringify({ proof, publicSignals }));
+      const response = await fetch('http://localhost:3001/generate-proof', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(input),
+      });
+      const { proof, publicSignals } = await response.json();
+      storage.set(`proofs:${vc.id}`, { proof, publicSignals });
       alert("Proof generated and stored!");
     } catch (err) {
       alert("Proof generation failed: " + err.message);

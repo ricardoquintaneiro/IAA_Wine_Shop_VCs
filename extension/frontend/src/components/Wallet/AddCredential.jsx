@@ -3,11 +3,32 @@ import { useState } from "react";
 export default function AddCredential({ onChange }) {
   const [error, setError] = useState("");
 
-  const saveToLocalStorage = (newCred) => {
-    const saved = localStorage.getItem("credentials");
-    const credentials = saved ? JSON.parse(saved) : [];
-    const updated = [...credentials, newCred];
-    localStorage.setItem("credentials", JSON.stringify(updated));
+  // Use chrome.storage.local if available, otherwise fallback to localStorage
+  const saveCredential = (newCred) => {
+    if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.local) {
+      chrome.storage.local.get(['credentials'], (result) => {
+        const credentials = result.credentials || [];
+        const updated = [...credentials, newCred];
+        chrome.storage.local.set({ credentials: updated }, () => {
+          if (chrome.runtime.lastError) {
+            setError("Failed to save credential: " + chrome.runtime.lastError.message);
+            return;
+          }
+          if (onChange) onChange();
+          window.close(); // Always try to close the window
+        });
+      });
+    } else {
+      try {
+        const saved = localStorage.getItem("credentials");
+        const credentials = saved ? JSON.parse(saved) : [];
+        const updated = [...credentials, newCred];
+        localStorage.setItem("credentials", JSON.stringify(updated));
+        if (onChange) onChange();
+      } catch (err) {
+        setError("Failed to save credential to localStorage.");
+      }
+    }
   };
 
   const handleFileChange = async (e) => {
@@ -17,10 +38,11 @@ export default function AddCredential({ onChange }) {
     try {
       const text = await file.text();
       const json = JSON.parse(text);
-      saveToLocalStorage(json);
-      if (onChange) onChange();
+      if (!json.id) throw new Error("Missing credential id");
+      saveCredential(json);
     } catch (err) {
       setError("Invalid JSON file.");
+      console.error("Credential import error:", err);
     }
     e.target.value = ""; // Reset file input
   };

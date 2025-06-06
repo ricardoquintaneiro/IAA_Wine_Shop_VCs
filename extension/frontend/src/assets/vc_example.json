@@ -15,7 +15,7 @@
   "credentialSubject": {
     "clientID": "did:subject:12345678.9.XYZ",
     "clientName": "John Doe",
-    "dateOfBirth": "2000-08-08"
+    "dateOfBirth": "2007-08-08"
   },
   "proof": {
     "type": "DataIntegrityProof",
