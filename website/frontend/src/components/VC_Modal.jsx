@@ -71,7 +71,6 @@ export default function VC_Modal({ wine, isOpen, onClose }) {
               <ImCross className="w-6 h-6" />
             </button>
           </div>
-
           {/* Content */}
           <div className="p-6">
             {/* Basic Info */}
