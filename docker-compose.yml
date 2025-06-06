@@ -37,8 +37,6 @@ services:
       - NODE_ENV=production
     ports:
       - "3001:3001"
-    volumes:
-      - ./website/extension/prover:/app
     networks:
       - wineshop-network
     restart: unless-stopped
@@ -65,6 +63,22 @@ services:
     restart: unless-stopped
     stdin_open: true
     tty: true
+
+  # ZKP Verifier service
+  zkp-verifier:
+    build:
+      context: ./zkp-verifier
+      dockerfile: Dockerfile
+    container_name: extension-zkp-verifier
+    environment:
+      - NODE_ENV=production
+    ports:
+      - "3002:3002"
+    volumes:
+      - ./extension/prover/verification_key.json:/app/verification_key.json
+    networks:
+      - wineshop-network
+    restart: unless-stopped
 
 networks:
   wineshop-network:
