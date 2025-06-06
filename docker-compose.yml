@@ -38,7 +38,7 @@ services:
     ports:
       - "3001:3001"
     volumes:
-      - ./website/extension/prover:/app
+      - ./extension/prover:/app
     networks:
       - wineshop-network
     restart: unless-stopped
