@@ -1,0 +1,122 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2"
+  ],
+  "type": [
+    "VerifiablePresentation"
+  ],
+  "verifiableCredential": [
+    {
+      "@context": [
+        "https://www.w3.org/2018/credentials/v1",
+        "https://example.com/wine-context/v1",
+        "https://w3id.org/security/data-integrity/v2"
+      ],
+      "id": "urn:uuid:f50907e8-080c-45b3-8f49-b9767a27ed98",
+      "type": [
+        "VerifiableCredential",
+        "WineCertificationCredential"
+      ],
+      "issuer": "did:key:zDnaeTVPyhGaA5aDvGqteTqdasjWFmdi7DXDdvobYEdo7Lr9U",
+      "issuanceDate": "2025-06-01T19:23:12.422Z",
+      "expirationDate": "2026-06-01T19:23:12.422Z",
+      "credentialSubject": {
+        "productId": "urn:epc:id:sgln:9602173028569.ZYN641034",
+        "productName": "Encosta Rosé",
+        "productType": "Wine",
+        "wineType": "Rosé",
+        "origin": {
+          "country": "Portugal",
+          "region": "Lisboa",
+          "subRegion": "Bucelas",
+          "producer": {
+            "name": "Quinta Encosta Bela",
+            "did": "did:encosta-bela"
+          }
+        },
+        "certifications": [
+          {
+            "certificationType": [
+              "Sustainable"
+            ],
+            "certifyingAuthority": "AgroCert",
+            "certificateId": "AGC-SUS-2023-641034",
+            "certificationDate": "2023-06-20"
+          }
+        ],
+        "grapeVarieties": [
+          "Touriga Nacional",
+          "Castelão"
+        ],
+        "alcoholContent": {
+          "value": 12.5,
+          "unit": "%"
+        },
+        "volume": {
+          "value": 750,
+          "unit": "ml"
+        },
+        "analyticalData": {
+          "fixedAcidity": {
+            "value": 6.8,
+            "unit": "g/L"
+          },
+          "volatileAcidity": {
+            "value": 0.32,
+            "unit": "g/L"
+          },
+          "citricAcid": {
+            "value": 0.31,
+            "unit": "g/L"
+          },
+          "residualSugar": {
+            "value": 7.2,
+            "unit": "g/L"
+          },
+          "chlorides": {
+            "value": 0.048,
+            "unit": "g/L"
+          },
+          "freeSulfurDioxide": {
+            "value": 28,
+            "unit": "mg/L"
+          },
+          "totalSulfurDioxide": {
+            "value": 91,
+            "unit": "mg/L"
+          },
+          "density": {
+            "value": 0.993,
+            "unit": "g/cm³"
+          },
+          "pH": 3.22,
+          "sulphates": {
+            "value": 0.37,
+            "unit": "g/L"
+          }
+        },
+        "vintage": 2023,
+        "batchCode": "ZYN641034"
+      },
+      "proof": {
+        "type": "DataIntegrityProof",
+        "created": "2025-06-01T19:23:12Z",
+        "verificationMethod": "did:key:zDnaeTVPyhGaA5aDvGqteTqdasjWFmdi7DXDdvobYEdo7Lr9U#zDnaeTVPyhGaA5aDvGqteTqdasjWFmdi7DXDdvobYEdo7Lr9U",
+        "cryptosuite": "ecdsa-rdfc-2019",
+        "proofPurpose": "assertionMethod",
+        "proofValue": "zyKNDBZbqvrGZFNvHatqpsuFa9i8fjcG5uF63WRF5FkDu6RXMDPFySdZHbEFQDrm9pNAc6xoxRkyqMMdrETYQgpc"
+      }
+    }
+  ],
+  "holder": "did:web:ua.pt:holder:student:456",
+  "proof": {
+    "type": "DataIntegrityProof",
+    "created": "2025-06-06T00:50:52Z",
+    "verificationMethod": "did:web:wineshop.pt:issuer:123#z82Lkpd6YoEdEo7W224qu4xLcQDd5F2N4XgjDcwy3cFk7HYSjLPnnmFUMdwZXBw8B3tE88L",
+    "cryptosuite": "ecdsa-rdfc-2019",
+    "proofPurpose": "authentication",
+    "challenge": "wine-challenge-321",
+    "domain": "https://wineshop.pt/",
+    "proofValue": "z4uFbPjnYb5TYL94SjqDQu3nZMQfg48qLBoTtVjnvpBXWSWqcnDfwrUu7xvaymnfoZowhMGQC2PATSqRGcfYK7LDqfAbjJHf1sxDXqwkGEgTyVyQhUhMsDnegFgyNrTwshbD"
+  }
+}

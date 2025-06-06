@@ -1,0 +1,122 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2"
+  ],
+  "type": [
+    "VerifiablePresentation"
+  ],
+  "verifiableCredential": [
+    {
+      "@context": [
+        "https://www.w3.org/2018/credentials/v1",
+        "https://example.com/wine-context/v1",
+        "https://w3id.org/security/data-integrity/v2"
+      ],
+      "id": "urn:uuid:a15b2d37-361f-4856-89b2-c4ce59067959",
+      "type": [
+        "VerifiableCredential",
+        "WineCertificationCredential"
+      ],
+      "issuer": "did:key:zDnaeTVPyhGaA5aDvGqteTqdasjWFmdi7DXDdvobYEdo7Lr9U",
+      "issuanceDate": "2025-06-01T19:23:12.430Z",
+      "expirationDate": "2026-06-01T19:23:12.430Z",
+      "credentialSubject": {
+        "productId": "urn:epc:id:sgln:7898721273834.FLC552271",
+        "productName": "Flor do Campo Branco",
+        "productType": "Wine",
+        "wineType": "White",
+        "origin": {
+          "country": "Portugal",
+          "region": "Setúbal",
+          "subRegion": "Palmela",
+          "producer": {
+            "name": "Vinícola do Campo",
+            "did": "did:vinicola-campo"
+          }
+        },
+        "certifications": [
+          {
+            "certificationType": [
+              "Biologic"
+            ],
+            "certifyingAuthority": "Agrobio",
+            "certificateId": "AGB-BIO-2023-552271",
+            "certificationDate": "2023-04-12"
+          }
+        ],
+        "grapeVarieties": [
+          "Fernão Pires",
+          "Arinto"
+        ],
+        "alcoholContent": {
+          "value": 13.2,
+          "unit": "%"
+        },
+        "volume": {
+          "value": 750,
+          "unit": "ml"
+        },
+        "analyticalData": {
+          "fixedAcidity": {
+            "value": 7,
+            "unit": "g/L"
+          },
+          "volatileAcidity": {
+            "value": 0.3,
+            "unit": "g/L"
+          },
+          "citricAcid": {
+            "value": 0.34,
+            "unit": "g/L"
+          },
+          "residualSugar": {
+            "value": 7.8,
+            "unit": "g/L"
+          },
+          "chlorides": {
+            "value": 0.043,
+            "unit": "g/L"
+          },
+          "freeSulfurDioxide": {
+            "value": 29,
+            "unit": "mg/L"
+          },
+          "totalSulfurDioxide": {
+            "value": 92,
+            "unit": "mg/L"
+          },
+          "density": {
+            "value": 0.993,
+            "unit": "g/cm³"
+          },
+          "pH": 3.2,
+          "sulphates": {
+            "value": 0.39,
+            "unit": "g/L"
+          }
+        },
+        "vintage": 2023,
+        "batchCode": "FLC552271"
+      },
+      "proof": {
+        "type": "DataIntegrityProof",
+        "created": "2025-06-01T19:23:12Z",
+        "verificationMethod": "did:key:zDnaeTVPyhGaA5aDvGqteTqdasjWFmdi7DXDdvobYEdo7Lr9U#zDnaeTVPyhGaA5aDvGqteTqdasjWFmdi7DXDdvobYEdo7Lr9U",
+        "cryptosuite": "ecdsa-rdfc-2019",
+        "proofPurpose": "assertionMethod",
+        "proofValue": "z5rNTyxnccLnrjLE83pc13tCxSR2Gq1S4nkbJtyJgTFVeyP9grkZqtDGVmPTvN8YnWAdVpAL1KNYVLex2SR9L6cBZ"
+      }
+    }
+  ],
+  "holder": "did:web:ua.pt:holder:student:456",
+  "proof": {
+    "type": "DataIntegrityProof",
+    "created": "2025-06-06T00:50:52Z",
+    "verificationMethod": "did:web:wineshop.pt:issuer:123#z82LkpjmDZ53NfGjuEyYyRmX4sQi9CnUrkqVCtnjTfC9LCLKViwBWKiLbQcoMrDYPBemYve",
+    "cryptosuite": "ecdsa-rdfc-2019",
+    "proofPurpose": "authentication",
+    "challenge": "wine-challenge-321",
+    "domain": "https://wineshop.pt/",
+    "proofValue": "zZxM1Soxbb7mkJpuf2kj71ns5aFvgzoCYSsGbxRWuAFfBCF2Fp7TbvQcfTgD8kZgmnKPxySQLhxSHGgAHSMLUqKAk9cMxNjk18UJbaYAi36GW6RL5A23gFgbpY9BntoNCCit"
+  }
+}
