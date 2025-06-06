@@ -107,7 +107,40 @@ export default function WalletView() {
                   </ul>
                 </div>
                 <div>
-                  {hasProof && <span className="ml-2 text-green-600">Proof generated</span>}
+                  {hasProof && (
+                    <button
+                      onClick={() => {
+                        // Get the proof from storage (chrome.storage or localStorage)
+                        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+                          const tabId = tabs[0]?.id;
+                          if (!tabId) {
+                            alert("No active tab found.");
+                            return;
+                          }
+                          storage.get(`proofs:${vc.id}`, (proofObj) => {
+                            if (!proofObj) {
+                              alert("No proof found for this credential.");
+                              return;
+                            }
+                            chrome.tabs.sendMessage(
+                              tabId,
+                              { type: "AGE_PROOF", proofObj },
+                              (response) => {
+                                if (chrome.runtime.lastError) {
+                                  alert("Failed to send proof: " + chrome.runtime.lastError.message);
+                                } else {
+                                  alert("Proof sent to website! You can now continue on the site.");
+                                }
+                              }
+                            );
+                          });
+                        });
+                      }}
+                      className="ml-2 px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm"
+                    >
+                      Send Proof to Website
+                    </button>
+                  )}
                   <button
                     onClick={() => handleRemove(vc.id)}
                     className="ml-4 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm"

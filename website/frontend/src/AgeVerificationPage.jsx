@@ -1,74 +1,83 @@
-import { useEffect } from "react";
-import { Button } from "@heroui/react";
+import { useEffect, useState } from "react";
+import { Spinner } from "@heroui/react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./components/RequireAuth";
 
 export default function AgeGate() {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
+  const [waitingForProof, setWaitingForProof] = useState(true); // Start waiting immediately
+  const [verifying, setVerifying] = useState(false);
+  const [error, setError] = useState("");
 
+  // Poll for proof in localStorage
   useEffect(() => {
-    // Check if user has already verified their age
-    const hasVerifiedAge = localStorage.getItem("ageVerified");
-    
-    if (hasVerifiedAge === "true") {
-      // If they're already authenticated, go directly to shop
-      if (isAuthenticated) {
-        navigate("/shop");
+    let interval;
+    if (waitingForProof) {
+      interval = setInterval(() => {
+        const proofData = localStorage.getItem("ageProof");
+        if (proofData) {
+          setVerifying(true);
+          setWaitingForProof(false);
+          verifyProof(JSON.parse(proofData));
+        }
+      }, 2000);
+    }
+    return () => clearInterval(interval);
+  }, [waitingForProof]);
+
+  const verifyProof = async ({ proof, publicSignals }) => {
+    try {
+      const response = await fetch("http://localhost:3002/verify-proof", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ proof, publicSignals }),
+      });
+      console.log("Sending proof for verification:", { proof, publicSignals });
+      console.log("Proof verification response:", response);
+      const { verified } = await response.json();
+      if (verified) {
+        localStorage.setItem("ageVerified", "true");
+        if (isAuthenticated) {
+          navigate("/shop");
+        } else {
+          navigate("/login");
+        }
       } else {
-        // If not authenticated, go to login
-        navigate("/login");
+        setError("Proof verification failed. Please try again.");
+        setVerifying(false);
       }
-    }
-  }, [isAuthenticated, navigate]);
-
-  const handleYesClick = () => {
-    localStorage.setItem("ageVerified", "true");
-    
-    // Check if user is already authenticated
-    if (isAuthenticated) {
-      navigate("/shop");
-    } else {
-      navigate("/login");
+    } catch (err) {
+      setError("Verification error: " + err.message);
+      setVerifying(false);
     }
   };
 
-  const handleNoClick = () => {
-    window.location.href = "https://www.asae.gov.pt/perguntas-frequentes1/area-alimentar/alcool/alcool-na-adolescencia-exposicao-e-suas-consequencias.aspx";
-  };
-
+  // Always show spinner and instructions while waiting or verifying
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50">
-      <div className="bg-white p-8 rounded-2xl shadow-2xl border border-gray-100 max-w-md w-full mx-4">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-4">
-            Age Verification Required
-          </h1>
-          <p className="text-gray-600 mb-6">
-            You must be 18 years or older to access this wine shop.
-          </p>
-          <h2 className="text-2xl font-semibold text-purple-600">
-            Are you over 18 years old?
-          </h2>
-        </div>
-        
-        <div className="flex gap-4">
-          <Button
-            onPress={handleNoClick}
-            className="flex-1 px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors font-semibold"
-          >
-            No
-          </Button>
-          <Button
-            onPress={handleYesClick}
-            className="flex-1 px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors font-semibold"
-          >
-            Yes
-          </Button>
-        </div>
-        
+    <div className="flex flex-col items-center justify-center min-h-screen">
+      <Spinner size="lg" />
+      <p className="mt-4 text-lg text-gray-700">
+        {verifying
+          ? "Verifying proof..."
+          : "Waiting for proof from VC Wallet extension..."}
+      </p>
+      <div className="text-center mt-8">
+        <h1 className="text-3xl font-bold text-gray-800 mb-4">
+          Age Verification Required
+        </h1>
+        <p className="text-gray-600 mb-6">
+          To access this wine shop, please generate and send a proof of age using your VC Wallet extension.
+        </p>
+        <h2 className="text-2xl font-semibold text-purple-600">
+          Step 1: Open your VC Wallet extension, generate a proof and send it.
+        </h2>
+        <h2 className="text-2xl font-semibold text-purple-600 mt-2">
+          Step 2: Wait for automatic verification.
+        </h2>
+        {error && <p className="text-red-600 mt-4">{error}</p>}
         <p className="text-xs text-gray-500 text-center mt-6">
-          By clicking "Yes", you confirm that you are of legal drinking age in your country.
+          By verifying, you confirm that you are of legal drinking age in your country.
         </p>
       </div>
     </div>

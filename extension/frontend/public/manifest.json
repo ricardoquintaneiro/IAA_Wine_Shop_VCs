@@ -6,5 +6,11 @@
     "action": {
         "default_popup": "index.html"
     },
-    "permissions": []
+    "permissions": ["tabs"],
+    "content_scripts": [
+        {
+            "matches": ["http://localhost:5173/*"],
+            "js": ["contentScript.js"]
+        }
+    ]
 }
