@@ -18,6 +18,7 @@
     "@digitalbazaar/ecdsa-multikey": "^1.8.0",
     "@digitalbazaar/ecdsa-rdfc-2019-cryptosuite": "^1.2.0",
     "@digitalbazaar/security-document-loader": "^3.0.1",
-    "@digitalbazaar/vc": "^7.2.0"
+    "@digitalbazaar/vc": "^7.2.0",
+    "express": "^5.1.0"
   }
 }

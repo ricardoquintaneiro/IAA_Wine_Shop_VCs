@@ -10,7 +10,7 @@ import { securityLoader } from "@digitalbazaar/security-document-loader";
 import { contexts as diContexts } from "@digitalbazaar/data-integrity-context";
 import fs from "fs";
 
-import credentialsV1 from "../context/credentials-v1.json" with { type: "json" };
+import credentialsV1 from "./context/credentials-v1.json" with { type: "json" };
 
 import express from "express";
 
@@ -107,7 +107,7 @@ async function verifyPresentation({ verifiablePresentation, documentLoader, chal
 
   // Load the key pair from the keys list
   const batchCode = verifiablePresentation.verifiableCredential[0].credentialSubject.batchCode;
-  const keysFile = "../public-keys/vpEcdsaKeyPairs.json";
+  const keysFile = "./public-keys/vpEcdsaKeyPairs.json";
   const keysList = JSON.parse(fs.readFileSync(keysFile, "utf8"));
   
   const keyData = keysList.find(k => k.batchCode === batchCode);
