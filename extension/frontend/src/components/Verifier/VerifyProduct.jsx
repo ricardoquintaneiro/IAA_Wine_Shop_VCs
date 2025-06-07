@@ -1,69 +1,78 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function VerifyProduct() {
-  const [vpInput, setVcInput] = useState("");
+  const [wineVps, setWineVps] = useState([]);
   const [verifying, setVerifying] = useState(false);
   const [result, setResult] = useState(null);
-  const [error, setError] = useState("");
+  const [selectedVp, setSelectedVp] = useState(null);
 
-  const handleVerify = async (e) => {
-    e.preventDefault();
+  // Fetch wine VPs from website localStorage via content script
+  useEffect(() => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      const tabId = tabs[0]?.id;
+      if (!tabId) return;
+      chrome.tabs.sendMessage(tabId, { type: "GET_WINE_VPS" }, (response) => {
+        if (response && response.wineVps) setWineVps(response.wineVps);
+      });
+    });
+  }, []);
+
+  const handleVerify = async (vpObj) => {
     setVerifying(true);
     setResult(null);
-    setError("");
+    setSelectedVp(vpObj);
+
+    const { storedAt, wineVP, ...vpToSend } = vpObj;
 
     try {
-      const vpObj = JSON.parse(vpInput);
-
       const response = await fetch("http://localhost:3000/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ verifiablePresentation: vpObj }),
+        body: JSON.stringify({ verifiablePresentation: vpToSend }),
       });
       if (!response.ok) {
-        throw new Error("Verification failed");
+        setResult({ verified: false });
+        return;
       }
-      const data = await response.json();
-      console.log("Verification result:", data);
-      setResult(data);
+      setResult({ verified: true });
     } catch (err) {
-      setError(err.message || "Verification error");
+      setResult({ verified: false });
     } finally {
       setVerifying(false);
     }
   };
 
   return (
-    <div className="p-2">
-      <h2 className="text-lg font-bold mb-2">Verify Product VP</h2>
-      <form onSubmit={handleVerify} className="flex flex-col gap-2">
-        <textarea
-          className="border rounded p-2 text-sm"
-          rows={4}
-          placeholder="Paste product VP JSON here"
-          value={vpInput}
-          onChange={e => setVcInput(e.target.value)}
-          required
-        />
-        <button
-          type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition disabled:opacity-50"
-          disabled={verifying}
-        >
-          {verifying ? "Verifying..." : "Verify"}
-        </button>
-      </form>
+    <>
+      {wineVps.length === 0 ? (
+        <div className="text-gray-500">No wine products found in website localStorage.</div>
+      ) : (
+        <ul className="space-y-2 mb-4">
+          {wineVps.map((vp, idx) => (
+            <li key={idx} className="flex items-center gap-2">
+              <span className="flex-1 truncate">
+                {vp.credentialSubject?.productName || vp.wineVP || `Wine VP #${idx + 1}`}
+              </span>
+              <button
+                className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 text-sm"
+                disabled={verifying}
+                onClick={() => handleVerify(vp)}
+              >
+                {verifying && selectedVp === vp ? "Verifying..." : "Verify"}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
       {result && (
-        <div className="mt-4 p-3 rounded bg-green-100 text-green-800 border border-green-300">
-          <div className="font-semibold">Verification Result:</div>
-          <pre className="text-xs whitespace-pre-wrap">{JSON.stringify(result, null, 2)}</pre>
+        <div className={`mt-4 p-3 rounded border font-semibold ${
+          result.verified
+            ? "bg-green-100 text-green-800 border-green-300"
+            : "bg-red-100 text-red-800 border-red-300"
+        }`}>
+          {result.verified ? "Verified!" : "Not verified."}
         </div>
       )}
-      {error && (
-        <div className="mt-4 p-3 rounded bg-red-100 text-red-800 border border-red-300">
-          {error}
-        </div>
-      )}
-    </div>
+    </>
   );
 }

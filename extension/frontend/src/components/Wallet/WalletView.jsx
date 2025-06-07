@@ -21,6 +21,8 @@ const storage = getStorage();
 
 export default function WalletView() {
   const [credentials, setCredentials] = useState([]);
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState("info"); // "info", "error", "success"
 
   // Load credentials from storage
   const loadCredentials = () => {
@@ -62,9 +64,11 @@ export default function WalletView() {
       });
       const { proof, publicSignals } = await response.json();
       storage.set(`proofs:${vc.id}`, { proof, publicSignals });
-      alert("Proof generated and stored!");
+      setMessage("Proof generated and stored!");
+      setMessageType("success");
     } catch (err) {
-      alert("Proof generation failed: " + err.message);
+      setMessage("Proof generation failed: " + err.message);
+      setMessageType("error");
     }
   };
 
@@ -78,9 +82,29 @@ export default function WalletView() {
     return `${year}-${month}-${day} - ${hours}:${minutes}`;
   };
 
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => setMessage(""), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
+
   return (
     <div>
       <h2 className="text-xl font-bold mb-4">Your Verifiable Credentials</h2>
+      {message && (
+        <div
+          className={`mb-4 px-4 py-2 rounded ${
+            messageType === "success"
+              ? "bg-green-100 text-green-800"
+              : messageType === "error"
+              ? "bg-red-100 text-red-800"
+              : "bg-blue-100 text-blue-800"
+          }`}
+        >
+          {message}
+        </div>
+      )}
       {credentials.length === 0 ? (
         <p className="text-gray-500">No credentials stored yet.</p>
       ) : (
@@ -110,16 +134,17 @@ export default function WalletView() {
                   {hasProof && (
                     <button
                       onClick={() => {
-                        // Get the proof from storage (chrome.storage or localStorage)
                         chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
                           const tabId = tabs[0]?.id;
                           if (!tabId) {
-                            alert("No active tab found.");
+                            setMessage("No active tab found.");
+                            setMessageType("error");
                             return;
                           }
                           storage.get(`proofs:${vc.id}`, (proofObj) => {
                             if (!proofObj) {
-                              alert("No proof found for this credential.");
+                              setMessage("No proof found for this credential.");
+                              setMessageType("error");
                               return;
                             }
                             chrome.tabs.sendMessage(
@@ -127,9 +152,11 @@ export default function WalletView() {
                               { type: "AGE_PROOF", proofObj },
                               (response) => {
                                 if (chrome.runtime.lastError) {
-                                  alert("Failed to send proof: " + chrome.runtime.lastError.message);
+                                  setMessage("Failed to send proof: " + chrome.runtime.lastError.message);
+                                  setMessageType("error");
                                 } else {
-                                  alert("Proof sent to website! You can now continue on the site.");
+                                  setMessage("Proof sent to website! You can now continue on the site.");
+                                  setMessageType("success");
                                 }
                               }
                             );
