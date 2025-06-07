@@ -10,16 +10,16 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<AgeGate />} />
+        {/* <Route path="/" element={<AgeGate />} /> */}
         
         {/* Routes that require age verification but not authentication */}
-        <Route element={<RequireAge />}>
+        <Route>
           <Route path="/login" element={<SignIn />} />
           <Route path="/register" element={<SignUp />} />
         </Route>
         
         {/* Routes that require both age verification AND authentication */}
-        <Route element={<RequireAge />}>
+        <Route>
           <Route element={<RequireAuth />}>
             <Route path="/shop" element={<MainPage />} />
           </Route>
