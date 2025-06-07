@@ -3,12 +3,12 @@ import { Card, CardHeader, CardBody, CardFooter } from '@heroui/card';
 import { Button } from '@heroui/button';
 import { Chip } from '@heroui/chip';
 import { CiStar } from "react-icons/ci";
-import wine1 from '../src/assets/wines_photos/castelo_forte_tinto.webp';
-import wine2 from "../src/assets/wines_photos/encosta_rose.webp";
-import wine3 from "../src/assets/wines_photos/flor_campo_branco.webp";
-import wine4 from "../src/assets/wines_photos/pomadao_alvarinho.webp";
-import wine5 from "../src/assets/wines_photos/solar_serra_branco.webp";
-import wine6 from "../src/assets/wines_photos/vale_secreto_tinto.webp";
+import wine1 from '../src/assets/wines_photos/vc-ACN257172.webp';
+import wine2 from "../src/assets/wines_photos/vc-BCH882319.webp";
+import wine3 from "../src/assets/wines_photos/vc-FLC552271.webp";
+import wine4 from "../src/assets/wines_photos/vc-LVM449210.webp";
+import wine5 from "../src/assets/wines_photos/vc-RTB330908.webp";
+import wine6 from "../src/assets/wines_photos/vc-ZYN641034.webp";
 import MyNavbar from './components/Navbar';
 import MyFooter from './components/Footer';
 import VC_Modal from './components/VC_Modal';
@@ -16,89 +16,95 @@ import VC_Modal from './components/VC_Modal';
 const featuredWines = [
   {
     id: 1,
-    name: "Château Margaux 2018",
-    type: "Bordeaux Red",
+    name: "Pomadão Alvarinho",
+    type: "White",
     price: 299.99,
     originalPrice: 349.99,
     rating: 4.9,
     image: wine1,
-    vintage: 2018,
-    region: "Bordeaux, France",
+    vintage: 2023,
+    region: "Minho, Portugal",
     description: "Elegant and complex with notes of blackcurrant and cedar",
     inStock: true,
     isNew: false,
-    onSale: true
+    onSale: true,
+    VC: 'vc-ACN257172'
   },
   {
     id: 2,
-    name: "Barolo Riserva DOCG",
-    type: "Nebbiolo",
+    name: "Vale Secreto Tinto",
+    type: "Red",
     price: 89.99,
     rating: 4.7,
     image: wine2,
-    vintage: 2019,
-    region: "Piedmont, Italy",
+    vintage: 2022,
+    region: "Borba, Portugal",
     description: "Rich and powerful with earthy undertones and cherry notes",
     inStock: true,
     isNew: true,
-    onSale: false
+    onSale: false,
+    VC: 'vc-BCH882319'
   },
   {
     id: 3,
-    name: "Dom Pérignon 2012",
-    type: "Champagne",
+    name: "Flor do Campo Branco",
+    type: "White",
     price: 199.99,
     rating: 4.8,
     image: wine3,
-    vintage: 2012,
-    region: "Champagne, France",
+    vintage: 2023,
+    region: "Palmela, Portugal",
     description: "Crisp and effervescent with delicate floral aromas",
     inStock: true,
     isNew: false,
-    onSale: false
+    onSale: false,
+    VC: 'vc-FLC552271'
   },
   {
     id: 4,
-    name: "Opus One 2020",
-    type: "Cabernet Blend",
+    name: "Solar da Serra Branco",
+    type: "White",
     price: 429.99,
     rating: 4.9,
     image: wine4,
-    vintage: 2020,
-    region: "Napa Valley, USA",
+    vintage: 2023,
+    region: "Dão, Portugal",
     description: "Luxurious blend with intense fruit flavors and silky tannins",
     inStock: false,
     isNew: false,
-    onSale: false
+    onSale: false,
+    VC: 'vc-LVM449210'
   },
   {
     id: 5,
-    name: "Riesling Eiswein",
-    type: "Dessert Wine",
+    name: "Castelo Forte Reserva",
+    type: "Red",
     price: 124.99,
     rating: 4.6,
     image: wine5,
     vintage: 2021,
-    region: "Mosel, Germany",
-    description: "Sweet and concentrated with honey and apricot flavors",
+    region: "Tomar, Portugal",
+    description: "Smooth and elegant with bright red fruit and earthy finish",
     inStock: true,
     isNew: true,
-    onSale: false
+    onSale: false,
+    VC: 'vc-RTB330908'
   },
   {
     id: 6,
-    name: "Pinot Noir Reserve",
-    type: "Oregon Pinot",
+    name: "Encosta Rosé",
+    type: "Rosé",
     price: 67.99,
     originalPrice: 79.99,
     rating: 4.5,
     image: wine6,
-    vintage: 2022,
-    region: "Willamette Valley, USA",
-    description: "Smooth and elegant with bright red fruit and earthy finish",
+    vintage: 2023,
+    region: "Bucelas, Portugal",
+    description: "Sweet and concentrated with honey and apricot flavors",
     inStock: true,
     isNew: false,
-    onSale: true
+    onSale: true,
+    VC: 'vc-ZYN641034'
   }
 ];
 
