@@ -28,7 +28,8 @@ const featuredWines = [
     inStock: true,
     isNew: false,
     onSale: true,
-    VC: 'vc-ACN257172'
+    VC: 'vc-ACN257172',
+    VP: 'vp-ACN257172'
   },
   {
     id: 2,
@@ -43,7 +44,8 @@ const featuredWines = [
     inStock: true,
     isNew: true,
     onSale: false,
-    VC: 'vc-BCH882319'
+    VC: 'vc-BCH882319',
+    VP: 'vp-BCH882319'
   },
   {
     id: 3,
@@ -58,7 +60,8 @@ const featuredWines = [
     inStock: true,
     isNew: false,
     onSale: false,
-    VC: 'vc-FLC552271'
+    VC: 'vc-FLC552271',
+    VP: 'vp-FLC552271'
   },
   {
     id: 4,
@@ -73,7 +76,8 @@ const featuredWines = [
     inStock: false,
     isNew: false,
     onSale: false,
-    VC: 'vc-LVM449210'
+    VC: 'vc-LVM449210',
+    VP: 'vp-LVM449210'
   },
   {
     id: 5,
@@ -88,7 +92,8 @@ const featuredWines = [
     inStock: true,
     isNew: true,
     onSale: false,
-    VC: 'vc-RTB330908'
+    VC: 'vc-RTB330908',
+    VP: 'vp-ZYN641034'
   },
   {
     id: 6,
@@ -104,7 +109,8 @@ const featuredWines = [
     inStock: true,
     isNew: false,
     onSale: true,
-    VC: 'vc-ZYN641034'
+    VC: 'vc-ZYN641034',
+    VP: 'vp-ZYN641034'
   }
 ];
 
