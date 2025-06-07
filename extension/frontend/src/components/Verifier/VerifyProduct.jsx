@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 export default function VerifyProduct() {
-  const [vcInput, setVcInput] = useState("");
+  const [vpInput, setVcInput] = useState("");
   const [verifying, setVerifying] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
@@ -13,16 +13,18 @@ export default function VerifyProduct() {
     setError("");
 
     try {
-      // TODO: Replace this URL with our actual verifier API endpoint
-      const response = await fetch("https://our-verifier-api/verify", {
+      const vpObj = JSON.parse(vpInput);
+
+      const response = await fetch("http://localhost:3000/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ vc: vcInput }),
+        body: JSON.stringify({ verifiablePresentation: vpObj }),
       });
       if (!response.ok) {
         throw new Error("Verification failed");
       }
       const data = await response.json();
+      console.log("Verification result:", data);
       setResult(data);
     } catch (err) {
       setError(err.message || "Verification error");
@@ -33,13 +35,13 @@ export default function VerifyProduct() {
 
   return (
     <div className="p-2">
-      <h2 className="text-lg font-bold mb-2">Verify Product VC</h2>
+      <h2 className="text-lg font-bold mb-2">Verify Product VP</h2>
       <form onSubmit={handleVerify} className="flex flex-col gap-2">
         <textarea
           className="border rounded p-2 text-sm"
           rows={4}
-          placeholder="Paste product VC JSON here"
-          value={vcInput}
+          placeholder="Paste product VP JSON here"
+          value={vpInput}
           onChange={e => setVcInput(e.target.value)}
           required
         />

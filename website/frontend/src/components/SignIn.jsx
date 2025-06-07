@@ -124,8 +124,8 @@ export default function SignIn() {
 
             // Redirect after a short delay
             setTimeout(() => {
-                window.location.href = "/";
-            }, 2000);
+                window.location.href = "/shop";
+            }, 1000);
 
         } catch (error) {
             console.error("Sign in error:", error);

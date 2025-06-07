@@ -9,6 +9,7 @@ import { DataIntegrityProof } from "@digitalbazaar/data-integrity";
 import { securityLoader } from "@digitalbazaar/security-document-loader";
 import { contexts as diContexts } from "@digitalbazaar/data-integrity-context";
 import fs from "fs";
+import cors from "cors";
 
 import credentialsV1 from "./context/credentials-v1.json" with { type: "json" };
 
@@ -18,6 +19,7 @@ const app = express();
 const port = 3000;
 
 app.use(express.json());
+app.use(cors());
 
 // setup documentLoader with security contexts
 const loader = securityLoader();

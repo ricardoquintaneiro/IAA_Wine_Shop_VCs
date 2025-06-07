@@ -19,7 +19,7 @@ export default function AgeGate() {
           setWaitingForProof(false);
           verifyProof(JSON.parse(proofData));
         }
-      }, 2000);
+      }, 1000);
     }
     return () => clearInterval(interval);
   }, [waitingForProof]);
