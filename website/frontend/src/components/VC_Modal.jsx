@@ -51,9 +51,33 @@ export default function VC_Modal({ wine, isOpen, onClose }) {
 
   if (!verificationData) return null;
 
-    const handleVerify = () => {
-    alert('Verification process initiated! This would connect to blockchain verification service.');
-  };
+const handleVerify = async () => {
+  try {
+    const filePath = `/wine-VPs/${wine.VP}.json`; 
+    
+    const response = await fetch(filePath);
+    
+    if (!response.ok) {
+      throw new Error(`Failed to fetch file: ${response.statusText}`);
+    }
+    
+    const jsonData = await response.json();
+    
+    // Store with a meaningful key
+    const storageKey = `wine_verification_${wine.VP}`;
+    localStorage.setItem(storageKey, JSON.stringify({
+      ...jsonData,
+      storedAt: new Date().toISOString(),
+      wineVP: wine.VP
+    }));
+    
+    alert('Verification process completed and data stored locally!');
+    
+  } catch (error) {
+    console.error('Error loading verification file:', error);
+    alert('Failed to load verification data. Please try again.');
+  }
+};
 
     const handleCertificateRetry = () => {
     fetchCertificate(currentCertType);
