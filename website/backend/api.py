@@ -278,12 +278,13 @@ class Wine(Resource):
         return {"id": wine_id}, HTTPStatus.CREATED
 
 
+with app.app_context():
+    init_db()
+
 api.add_resource(Register, "/register")
 api.add_resource(Login, "/login")
 api.add_resource(Refresh, "/refresh")
 api.add_resource(Wine, "/wines", "/wines/<int:wine_id>")
 
 if __name__ == "__main__":
-    with app.app_context():
-        init_db()
     app.run(debug=True)

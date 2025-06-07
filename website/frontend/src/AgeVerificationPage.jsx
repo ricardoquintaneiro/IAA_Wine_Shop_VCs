@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import { Spinner } from "@heroui/react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "./components/RequireAuth";
 
 export default function AgeGate() {
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
   const [waitingForProof, setWaitingForProof] = useState(true); // Start waiting immediately
   const [verifying, setVerifying] = useState(false);
   const [error, setError] = useState("");
@@ -33,16 +31,10 @@ export default function AgeGate() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ proof, publicSignals }),
       });
-      console.log("Sending proof for verification:", { proof, publicSignals });
-      console.log("Proof verification response:", response);
       const { verified } = await response.json();
       if (verified) {
         localStorage.setItem("ageVerified", "true");
-        if (isAuthenticated) {
-          navigate("/shop");
-        } else {
-          navigate("/login");
-        }
+        navigate("/shop");
       } else {
         setError("Proof verification failed. Please try again.");
         setVerifying(false);
