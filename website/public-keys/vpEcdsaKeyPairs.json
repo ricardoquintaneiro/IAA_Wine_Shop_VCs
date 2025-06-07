@@ -1,0 +1,50 @@
+[
+  {
+    "batchCode": "ACN257172",
+    "keyPair": {
+      "@context": "https://w3id.org/security/multikey/v1",
+      "type": "Multikey",
+      "publicKeyMultibase": "z82Lm4HSMKd3UFaTkYocKz2rnF6qCLmHkL4wyC4JVbv5boaAm96WPrmfd4wGfgMfvLBfZmL"
+    }
+  },
+  {
+    "batchCode": "BCH882319",
+    "keyPair": {
+      "@context": "https://w3id.org/security/multikey/v1",
+      "type": "Multikey",
+      "publicKeyMultibase": "z82Lm3dez37PPjsid1tWyYryNYfpEiZRmX9kU38onwkfeLyumYBTKAZZkQ2TN4g4Z63Hu6z"
+    }
+  },
+  {
+    "batchCode": "FLC552271",
+    "keyPair": {
+      "@context": "https://w3id.org/security/multikey/v1",
+      "type": "Multikey",
+      "publicKeyMultibase": "z82LkrvtkPNUxe7fts4VSeUj9Prft57S8opVWNmYsUbHtAi8yJWwy2Z9PZogVzbx9jRpzUd"
+    }
+  },
+  {
+    "batchCode": "LVM449210",
+    "keyPair": {
+      "@context": "https://w3id.org/security/multikey/v1",
+      "type": "Multikey",
+      "publicKeyMultibase": "z82Lm4yKxjvK9NroPQha5VUX3UK8yodyTpkzpjMEVd9qBCKpqZ6X4Dgetgzt6dgmDceMLNP"
+    }
+  },
+  {
+    "batchCode": "RTB330908",
+    "keyPair": {
+      "@context": "https://w3id.org/security/multikey/v1",
+      "type": "Multikey",
+      "publicKeyMultibase": "z82Lm3oD7e41jPy82uhzhgAeCkQNBg3B5HBvkNjHiffHJor5MMh3EGkEyRxiDDCGCZEEnp1"
+    }
+  },
+  {
+    "batchCode": "ZYN641034",
+    "keyPair": {
+      "@context": "https://w3id.org/security/multikey/v1",
+      "type": "Multikey",
+      "publicKeyMultibase": "z82Lm1BdJdPkJEVL944rJh3eH7y6XUi9CCLvt589qYnau63NN7a7UPFSnM496iSbtgSChL9"
+    }
+  }
+]
