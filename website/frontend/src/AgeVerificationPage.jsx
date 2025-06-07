@@ -32,11 +32,12 @@ export default function AgeGate() {
         body: JSON.stringify({ proof, publicSignals }),
       });
       const { verified } = await response.json();
-      if (verified) {
+      // Check both: proof is valid AND publicSignals[0] indicates of-age
+      if (verified && publicSignals && publicSignals[0] === "1") {
         localStorage.setItem("ageVerified", "true");
         navigate("/shop");
       } else {
-        setError("Proof verification failed. Please try again.");
+        setError("You are not of legal age or the proof is invalid.");
         setVerifying(false);
       }
     } catch (err) {
