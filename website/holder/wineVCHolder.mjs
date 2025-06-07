@@ -10,7 +10,7 @@ import { securityLoader } from "@digitalbazaar/security-document-loader";
 import { contexts as diContexts } from "@digitalbazaar/data-integrity-context";
 import fs from "fs";
 
-import credentialsV1 from "./context/credentials-v1.json" with { type: "json" };
+import credentialsV1 from "../context/credentials-v1.json" with { type: "json" };
 
 // setup documentLoader with security contexts
 const loader = securityLoader();
@@ -96,14 +96,28 @@ const documentLoader = loader.build();
 async function main({ verifiableCredential, documentLoader }, vpFileName) {
   // setup example for did:web
   const VP_DID = "did:web:wineshop.pt:issuer:123";
-  const VP_DID_URL = "https://wineshop.pt/issuer/123"; // The target DID URL
+  const VP_DID_URL = "https://wineshop.pt/issuer/123";
 
-  // generate example keypair for VP signer (The HOLDER)
+  // Generate keypair and get the batch code
   const vpEcdsaKeyPair = await EcdsaMultikey.generate({ curve: "P-384" });
-  fs.writeFileSync(
-    "vpEcdsaKeyPair.json",
-    JSON.stringify(await vpEcdsaKeyPair.export({ publicKey: true }))
-  );
+  const batchCode = verifiableCredential.credentialSubject.batchCode;
+
+  // Load existing keys or create new array
+  const keysFile = "../public-keys/vpEcdsaKeyPairs.json";
+  let keysList = [];
+  if (fs.existsSync(keysFile)) {
+    keysList = JSON.parse(fs.readFileSync(keysFile, "utf8"));
+  }
+
+  // Add new key with batch code
+  const keyData = await vpEcdsaKeyPair.export({ publicKey: true });
+  keysList.push({
+    batchCode,
+    keyPair: keyData
+  });
+
+  // Save updated keys list
+  fs.writeFileSync(keysFile, JSON.stringify(keysList, null, 2));
 
   const { didDocument: vpDidDocument, methodFor: vpMethodFor } =
     await didWebDriver.fromKeyPair({
@@ -125,16 +139,25 @@ async function main({ verifiableCredential, documentLoader }, vpFileName) {
 
   // using a static verification method result
   // In the real world, this would be fetched from the DID Document
-  const vpDidVm = structuredClone(vpDidDocument.verificationMethod[0]);
-  vpDidVm["@context"] = "https://w3id.org/security/multikey/v1";
+  // const vpDidVm = structuredClone(vpDidDocument.verificationMethod[0]);
+  // vpDidVm["@context"] = "https://w3id.org/security/multikey/v1";  
+  // loader.addStatic(vpDidVm.id, vpDidVm);
+  const vpDidVm = {
+    ...vpDidDocument.verificationMethod[0],
+    "@context": [
+      "https://www.w3.org/ns/did/v1",
+      "https://w3id.org/security/multikey/v1"
+    ]
+  };
   loader.addStatic(vpDidVm.id, vpDidVm);
 
   // presentation holder
-  const holder = "did:web:wineshop.pt:holder:vendor:123";
+  const holder = "did:web:wineshop.pt:issuer:123";
   // presentation challenge - required for authentication proof purpose
-  const challenge = "wine-challenge-321";
+  // hardcoded for development purposes
+  const challenge = "wine-challenge-321"; 
   // presentation domain - optional in this use case
-  const domain = "https://wineshop.pt/";
+  // const domain = "https://example.com/";
 
   const presentation = await vc.createPresentation({
     verifiableCredential,
@@ -150,7 +173,7 @@ async function main({ verifiableCredential, documentLoader }, vpFileName) {
     presentation,
     suite: vpSigningSuite,
     challenge,
-    domain,
+    // domain,
     documentLoader,
   });
 
@@ -162,6 +185,13 @@ async function main({ verifiableCredential, documentLoader }, vpFileName) {
   if (!fs.existsSync(vpDir)) {
     fs.mkdirSync(vpDir);
     console.log(`Created directory: ${vpDir}`);
+  }
+
+  // Create keys directory
+  const keysDir = "../public-keys";
+  if (!fs.existsSync(keysDir)) {
+    fs.mkdirSync(keysDir);
+    console.log(`Created directory: ${keysDir}`);
   }
 
   // Save the wine VPs

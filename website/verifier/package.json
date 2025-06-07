@@ -1,0 +1,23 @@
+{
+  "name": "verifier",
+  "version": "1.0.0",
+  "description": "```bash $ npm init -y",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@digitalbazaar/data-integrity": "^2.5.0",
+    "@digitalbazaar/data-integrity-context": "^2.0.1",
+    "@digitalbazaar/did-method-key": "^5.2.0",
+    "@digitalbazaar/did-method-web": "^1.0.1",
+    "@digitalbazaar/ecdsa-multikey": "^1.8.0",
+    "@digitalbazaar/ecdsa-rdfc-2019-cryptosuite": "^1.2.0",
+    "@digitalbazaar/security-document-loader": "^3.0.1",
+    "@digitalbazaar/vc": "^7.2.0"
+  }
+}

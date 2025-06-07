@@ -1,8 +1,12 @@
-# IAA_Wine_Shop_VCs - Website Holder
+# IAA_Wine_Shop_VCs - Website Verifier
 
 ## Install dependencies
 
 ```bash
+$ npm init -y
+
+$ npm install express --save
+
 $ npm install @digitalbazaar/vc
 $ npm install @digitalbazaar/did-method-key
 $ npm install @digitalbazaar/did-method-web
@@ -19,8 +23,15 @@ $ npm install @digitalbazaar/data-integrity-context
 $ node --version
 ```
 
-## Generate the VPs
+## Run and interact with the VC Verification API
 
+In terminal 1:
 ```bash
-$ cd website/holder && node wineVCHolder.mjs
+$ cd website/verifier && node wineVCVerifier.mjs
 ```
+
+In terminal 2:
+```bash
+$ curl -X POST http://localhost:3000/verify -H "Content-Type: application/json" -d @../wine-VPs/vp-ACN257172.json
+```
+The sent request data (`-d` flag) can be the path to a file or a JSON string.
