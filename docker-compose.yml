@@ -13,8 +13,6 @@ services:
       - FLASK_ENV=production
       - FLASK_APP=api.py
     volumes:
-      # Mount the database file to persist data
-      - ./website/backend/wineshop.sqlite3:/app/wineshop.sqlite3
       # Mount .env file if it exists
       - ./website/backend/.env:/app/.env
     networks:
@@ -78,6 +76,22 @@ services:
       - "3002:3002"
     volumes:
       - ./extension/prover/verification_key.json:/app/verification_key.json
+    networks:
+      - wineshop-network
+    restart: unless-stopped
+
+  wine-vc-verifier:
+    build:
+      context: ./website/verifier
+      dockerfile: Dockerfile
+    container_name: wine-vc-verifier
+    environment:
+      - NODE_ENV=production
+    ports:
+      - "3000:3000"  # host:container (adjust host port if needed)
+    volumes:
+      - ./website/public-keys:/app/public-keys:ro
+      - ./website/context:/app/context:ro
     networks:
       - wineshop-network
     restart: unless-stopped
